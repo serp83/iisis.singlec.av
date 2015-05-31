@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xsi:schemaLocation="iisis/schemas/2014/projects/singlec/iis/form ../../../../../projects/xsd/2014/projects/singlec/iis/form/form.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="iisis/schemas/2014/projects/singlec/iis/form" description="Выгрузка заказов">
+
+    <panel>
+        <pageList>
+            <page>
+                <controlList>
+                    <panel ID="panelLeft"
+                           linkB="panel"
+                           linkL="panel"
+                           linkR="splitter.linkL."
+                           linkT="panel"
+                           width="50%">
+                        <pageList>
+                            <page>
+                                <controlList>
+                                    <commandBar ID="commandBarOrderList"
+                                           linkR="panel"
+                                           linkT="panel"
+                                           linkL="panel"
+                                           height="25" actionSource="tableBoxOrderList"
+                                            autoFill="1"/>
+                                    <tableBox ID="tableBoxOrderList"
+                                            linkL="panel"
+                                            linkB="panel"
+                                            linkT="commandBarOrderList.linkB."
+                                            linkR="panel"
+                                            valueType="$DocumentList.ЗаказПоставщику">
+                                        <fieldList>
+                                            <field data="Date" description="Дата" width="3" displayDefaultPicture="1"/>
+                                            <field data="Number" description="Номер" width="3"/>
+                                            <field data="Контрагент" description="Контрагент" width="3"/>
+                                            <field data="Склад" description="Склад" width="3"/>
+                                        </fieldList>
+                                        <eventGroup>
+                                            <event name="$TableBoxOnActivateRow">
+                                                <event name="TableBoxOrderListGetEmailList">
+                                                    <parameterList>
+                                                        <parameter name="$control"/>
+                                                        <parameter name="$controlOptions"/>
+                                                    </parameterList>
+
+                                                    <after>
+                                                        <event name="@TableBoxGetCurrentRow"/>
+                                                        <event name="TextBoxEmailSetList" class="$control:ID:textBoxEmail">
+                                                            <parameterList>
+                                                                <parameter name="EmailList" value="@EmailList"/>
+                                                            </parameterList>
+                                                        </event>
+                                                        <event name="TableBoxLoadParametersLoad" class="$control:ID:tableBoxLoadParameters">
+                                                            <parameterList>
+                                                                <parameter name="cDocument" value="@CurrentRow"/>
+                                                            </parameterList>
+                                                        </event>
+                                                    </after>
+                                                </event>
+                                            </event>
+                                            <event name="$TableBoxOnDataGet">
+                                                <event name="TableBoxOrderListOnDataGet">
+                                                    <parameterList>
+                                                        <parameter name="$control"/>
+                                                        <parameter name="$controlOptions"/>
+                                                    </parameterList>
+                                                </event>
+                                            </event>
+                                        </eventGroup>
+                                    </tableBox>
+
+                                </controlList>
+                            </page>
+                        </pageList>
+                    </panel>
+                    <splitter ID="splitter"
+                              linkT="panel"
+                              linkB="panel"
+                              linkL="panelLeft.linkR."
+                              linkR="panelRight.linkL."
+                              width="4"/>
+                    <panel ID="panelRight"
+                           linkB="panel"
+                           linkL="splitter.linkL."
+                           linkR="panel"
+                           linkT="panel">
+                        <pageList>
+                            <page>
+                                <controlList>
+                                    <commandBar ID="commandBarEmail"
+                                                linkR="panel"
+                                                linkT="panel"
+                                                linkL="panel"
+                                                height="25">
+                                        <buttonList>
+                                            <button type="Action" description="Отправить">
+                                                <eventGroup>
+                                                    <event name="$CommandBarButtonClick">
+                                                        <event name="CommandBarEmailSend">
+                                                            <parameterList>
+                                                                <parameter name="$controlValue:ID:textBoxEmail"/>
+                                                                <parameter name="$controlValue:ID:tableBoxLoadParameters"/>
+                                                            </parameterList>
+                                                        </event>
+                                                    </event>
+                                                </eventGroup>
+                                            </button>
+                                        </buttonList>
+                                    </commandBar>
+                                    <textBox ID="textBoxEmail"
+                                             linkL="panel"
+                                             linkR="panel"
+                                             linkT="commandBarEmail.linkB."
+                                             height="15">
+                                        <eventGroup>
+                                            <event name="TextBoxEmailSetList">
+                                                <event name="TextBoxEmailSetList">
+                                                    <parameterList>
+                                                        <parameter name="$control"/>
+                                                        <parameter name="@EmailList"/>
+                                                    </parameterList>
+                                                </event>
+                                            </event>
+                                        </eventGroup>
+                                    </textBox>
+                                    <tableBox ID="tableBoxLoadParameters"
+                                             linkL="panel"
+                                             linkR="panel"
+                                             linkT="textBoxEmail.linkB."
+                                             height="40%"
+                                            valueType="@function:TableBoxLoadParametersGetBean">
+                                        <fieldList>
+                                            <field data="Name" description="Наименование" width="5"/>
+                                            <field data="xls" description="xls" width="1"/>
+                                            <field data="txt" description="txt" width="1"/>
+                                            <field data="html" description="html" width="1"/>
+                                        </fieldList>
+                                        <eventGroup>
+                                            <event name="$TableBoxBeforeAddRow"/>
+                                            <event name="$TableBoxBeforeDeleteRow"/>
+                                            <event name="TableBoxLoadParametersLoad">
+                                                <event name="TableBoxLoadParametersLoad">
+                                                    <parameterList>
+                                                        <parameter name="$control"/>
+                                                        <parameter name="@cDocument"/>
+                                                    </parameterList>
+                                                </event>
+                                            </event>
+                                            <event name="$TableBoxOnActivateRow">
+                                                <event name="TableBoxLoadParametersPrintForm">
+                                                    <parameterList>
+                                                        <parameter name="$control"/>
+                                                        <parameter name="$control:ID:cDocumentPrintForm"/>
+                                                    </parameterList>
+                                                </event>
+                                            </event>
+                                            <event name="$TableBoxSelection">
+                                                <event name="TableBoxLoadParametersCopyToClipBoard">
+                                                    <parameterList>
+                                                        <parameter name="$control"/>
+                                                        <parameter name="$controlOptions"/>
+                                                    </parameterList>
+                                                </event>
+                                            </event>
+                                        </eventGroup>
+                                    </tableBox>
+                                    <spreadsheetDocumentField ID="cDocumentPrintForm"
+                                                              linkL="panel"
+                                                              linkR="panel"
+                                                              linkT="tableBoxLoadParameters.linkB."
+                                                              linkB="panel" ></spreadsheetDocumentField>
+                                </controlList>
+                            </page>
+                        </pageList>
+                    </panel>
+                </controlList>
+            </page>
+        </pageList>
+    </panel>
+    <eventGroup>
+        <event name="$FormBeforeClose">
+            <event name="@FormBeforeClose"/>
+        </event>
+    </eventGroup>
+</form>

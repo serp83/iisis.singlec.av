@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xsi:schemaLocation="iisis/schemas/2014/projects/singlec/iis/form ../../../../../projects/xsd/2014/projects/singlec/iis/form/form.xsd"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="iisis/schemas/2014/projects/singlec/iis/form" description="Фронт закупок">
+    <panel>
+        <pageList>
+            <page>
+                <controlList>
+                    <panel ID="reportList" template="av.frontSale|||$control:ID:reportList"/>
+                    <splitter ID="splitter1" template="av.frontSale|||$control:ID:splitter1"/>
+                    <panel ID="panelRight"
+                           linkL="splitter1.linkL."
+                           linkR="panel"
+                           linkT="panel"
+                           linkB="panel">
+                        <pageList>
+                            <page>
+                                <controlList>
+                                    <textBox ID="textBoxSearch"
+                                             class="av.frontSale"
+                                             template="av.frontSale|||$control:ID:textBoxSearch"/>
+                                    <panel ID="panelRightTop"
+                                           linkL="panel"
+                                           linkR="panel"
+                                           linkT="textBoxSearch.linkB."
+                                           linkB="splitter2.linkT."
+                                           height="30%"
+                                           tabListPosition="top">
+                                        <pageList>
+                                            <page description="Заказ">
+                                                <controlList>
+                                                    <commandBar ID="panelProductListSale"
+                                                                linkL="panel"
+                                                                linkR="panel"
+                                                                linkT="panel"
+                                                                height="25"
+                                                                actionSource="tableBoxProductListSale">
+                                                        <buttonList>
+                                                            <button type="Action" description="Загрузить"
+                                                                    picture="arrow_down">
+                                                                <eventGroup>
+                                                                    <event name="$CommandBarButtonClick">
+                                                                        <event class="$control:ID:tableBoxProductListSale"
+                                                                               name="Load"/>
+                                                                    </event>
+                                                                </eventGroup>
+                                                            </button>
+                                                            <button type="Action" class="apg.mikado.priceList.db.http.priceListOut" description="Выгрузка в микадо">
+                                                                <eventGroup>
+                                                                    <event name="$CommandBarButtonClick">
+                                                                        <event name="SaveObject"/>
+                                                                    </event>
+                                                                </eventGroup>
+                                                            </button>
+                                                        </buttonList>
+                                                    </commandBar>
+                                                    <tableBox ID="tableBoxProductListSale"
+                                                              linkR="panel"
+                                                              linkB="panel"
+                                                              linkT="panelProductListSale.linkB."
+                                                              linkL="panel"
+                                                              class=".controls.tableBoxProductListSale"
+                                                              valueType="@function:GetBean"
+                                                              init="1">
+                                                        <fieldList>
+
+                                                            <field data="Manufacturer" description="Бренд" width="3"/>
+                                                            <field data="Number" description="Номер" width="4"/>
+                                                            <field data="Product" description="Описание" width="6">
+                                                                <control openButton="1" choiceButton="1" valueType=""/>
+                                                            </field>
+                                                            <field data="Quantity" description="Количество" width="2"/>
+                                                            <field data="MinimumBalanceAmount" description="Мин ост" width="2"/>
+                                                            <field data="Price" description="Цена" width="2"/>
+                                                        </fieldList>
+                                                        <eventGroup>
+                                                            <event name="$TableBoxOnActivateRow">
+                                                                <event name="@TableBoxCurrentRowGetColumnValue">
+                                                                    <parameterList>
+                                                                        <parameter name="Number"/>
+                                                                        <parameter name="$CS"/>
+                                                                        <parameter name="$controlOptions"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                                <event class="$control:ID:informationBlock"
+                                                                       name="Update">
+                                                                    <parameterList>
+                                                                        <parameter name="controlIN" value="$control"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                                <event name="SetCurrentPage"
+                                                                       class="$control:ID:panelRightBottom">
+                                                                    <parameterList>
+                                                                        <parameter name="CurrentPage"
+                                                                                   value="Информация"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                                <event name="ClipBoardCopyData" class="iis.shell">
+                                                                    <parameterList>
+                                                                        <parameter name="@ColumnValue"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                                <event class="$control:ID:textBoxSearch"
+                                                                       name="textBoxSearchUpdate">
+                                                                    <parameterList>
+                                                                        <parameter name="EventName" value="ext"/>
+                                                                        <parameter name="Value"
+                                                                                   value="@ColumnValue"/>
+                                                                        <parameter name="FindType"
+                                                                                   value="FindByNumber"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                            <event name="$TableBoxOnDataGet">
+                                                                <event name="OnDataGet">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="$controlOptions"/>
+                                                                        <parameter
+                                                                                name="$controlValue:ID:tableBoxProductList"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                            <event name="Load">
+                                                                <event name="Load">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="@FilterListMap"/>
+                                                                    </parameterList>
+
+                                                                    <before>
+                                                                        <event name="@ObjectListOptionsGetFilterListMap"
+                                                                               class="$control:ID:objectListOptions"/>
+                                                                    </before>
+                                                                </event>
+                                                                <event name="Load"
+                                                                       class="$control:ID:tableBoxMinimumBalance"/>
+                                                            </event>
+                                                        </eventGroup>
+                                                    </tableBox>
+                                                </controlList>
+                                            </page>
+                                            <page description="Минимальный остаток">
+                                                <controlList>
+                                                    <commandBar ID="panelMinimumBalance"
+                                                                linkL="panel"
+                                                                linkR="panel"
+                                                                linkT="panel"
+                                                                height="25"
+                                                                actionSource="tableBoxMinimumBalance"
+                                                                class=".controls.tableBoxMinimumBalance">
+                                                        <buttonList>
+                                                            <button type="Action" description="Создать заказы">
+                                                                <eventGroup>
+                                                                    <event name="$CommandBarButtonClick">
+                                                                        <event name="CreateOrderListByMinimumBalance">
+                                                                            <parameterList>
+                                                                                <parameter
+                                                                                        name="$controlValue:ID:tableBoxMinimumBalance"/>
+                                                                            </parameterList>
+                                                                        </event>
+                                                                    </event>
+                                                                </eventGroup>
+                                                            </button>
+                                                        </buttonList>
+                                                    </commandBar>
+                                                    <tableBox ID="tableBoxMinimumBalance"
+                                                              linkR="panel"
+                                                              linkB="panel"
+                                                              linkT="panelMinimumBalance.linkB."
+                                                              linkL="panel"
+                                                              class=".controls.tableBoxMinimumBalance"
+                                                              valueType="@function:GetBean"
+                                                              init="1">
+                                                        <fieldList>
+                                                            <field data="Manufacturer" description="Бренд" width="3"/>
+                                                            <field data="Number" description="Номер" width="4"/>
+                                                            <field data="FindNumber" description="Поиск" width="4"/>
+                                                            <field data="Product" description="Описание" width="6">
+                                                                <control openButton="1" choiceButton="1" valueType=""/>
+                                                            </field>
+                                                            <field data="Partner" description="Контрагент" width="6"/>
+                                                            <field data="Quantity" description="Количество" width="2"/>
+                                                            <field data="Price" description="Цена" width="2"/>
+                                                        </fieldList>
+                                                        <eventGroup>
+                                                            <event name="$TableBoxOnActivateRow">
+                                                                <event name="@TableBoxCurrentRowGetColumnValue">
+                                                                    <parameterList>
+                                                                        <parameter name="Number"/>
+                                                                        <parameter name="$CS"/>
+                                                                        <parameter name="$controlOptions"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                                <event class="$control:ID:informationBlock"
+                                                                       name="Update">
+                                                                    <parameterList>
+                                                                        <parameter name="controlIN" value="$control"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                                <event name="SetCurrentPage"
+                                                                       class="$control:ID:panelRightBottom">
+                                                                    <parameterList>
+                                                                        <parameter name="CurrentPage"
+                                                                                   value="Информация"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                                <event name="ClipBoardCopyData" class="iis.shell">
+                                                                    <parameterList>
+                                                                        <parameter name="@ColumnValue"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                                <event class="$control:ID:textBoxSearch"
+                                                                       name="textBoxSearchUpdate">
+                                                                    <parameterList>
+                                                                        <parameter name="EventName" value="ext"/>
+                                                                        <parameter name="Value"
+                                                                                   value="@ColumnValue"/>
+                                                                        <parameter name="FindType"
+                                                                                   value="FindByNumber"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                            </event>
+                                                            <event name="$TableBoxOnDataGet">
+                                                                <event name="OnDataGet">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="$controlOptions"/>
+                                                                        <parameter
+                                                                                name="$controlValue:ID:tableBoxProductList"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                            <event name="$TableBoxSelection">
+                                                                <event name="TableBoxSelection">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="$controlOptions"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                            <event name="Load">
+                                                                <event name="Load">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="@FilterListMap"/>
+                                                                    </parameterList>
+
+                                                                    <before>
+                                                                        <event name="@ObjectListOptionsGetFilterListMap"
+                                                                               class="$control:ID:objectListOptions"/>
+                                                                    </before>
+                                                                </event>
+                                                            </event>
+                                                        </eventGroup>
+                                                    </tableBox>
+                                                </controlList>
+                                            </page>
+                                            <page description="Файловый источник">
+                                                <controlList>
+                                                    <commandBar ID="panelFileSource"
+                                                                linkL="panel"
+                                                                linkR="textBoxFileSource.linkL."
+                                                                linkT="panel"
+                                                                height="25"
+                                                                width="50%"
+                                                                actionSource="tableBoxFileSource"
+                                                                class=".controls.tableBoxFileSource">
+                                                        <buttonList>
+                                                            <button type="Action" description="Колонка Артикул">
+                                                                <eventGroup>
+                                                                    <event name="$CommandBarButtonClick">
+                                                                        <event name="SetCurrentColumnAsProductNumber">
+                                                                            <parameterList>
+                                                                                <parameter
+                                                                                        name="$control:ID:tableBoxFileSource"/>
+                                                                            </parameterList>
+                                                                        </event>
+                                                                    </event>
+                                                                </eventGroup>
+                                                            </button>
+                                                        </buttonList>
+                                                    </commandBar>
+                                                    <textBox ID="textBoxFileSource"
+                                                             linkL="panelFileSource.linkR."
+                                                             linkR="panel"
+                                                             linkT="panel"
+                                                             height="25"
+                                                             class=".controls.tableBoxFileSource"
+                                                             choiceButton="1">
+                                                        <eventGroup>
+                                                            <event name="$TextBoxStartChoice">
+                                                                <event name="SelectFileSource">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                                <event name="LoadFileSource">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter
+                                                                                name="$control:ID:tableBoxFileSource"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                        </eventGroup>
+                                                    </textBox>
+                                                    <tableBox ID="tableBoxFileSource"
+                                                              linkR="panel"
+                                                              linkB="panel"
+                                                              linkT="panelFileSource.linkB."
+                                                              linkL="panel"
+                                                              class=".controls.tableBoxFileSource">
+                                                        <fieldList>
+                                                        </fieldList>
+                                                        <eventGroup>
+                                                            <event name="$TableBoxOnActivateRow">
+                                                                <event name="@TableBoxCurrentRowGetColumnValue">
+                                                                    <parameterList>
+                                                                        <parameter name="Number"/>
+                                                                        <parameter name="$CS"/>
+                                                                        <parameter name="$controlOptions"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                                <event name="ClipBoardCopyData" class="iis.shell">
+                                                                    <parameterList>
+                                                                        <parameter name="@ColumnValue"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                                <event class="$control:ID:textBoxSearch"
+                                                                       name="textBoxSearchUpdate">
+                                                                    <parameterList>
+                                                                        <parameter name="EventName" value="ext"/>
+                                                                        <parameter name="Value"
+                                                                                   value="@ColumnValue"/>
+                                                                        <parameter name="FindType"
+                                                                                   value="FindByNumber"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                        </eventGroup>
+                                                    </tableBox>
+                                                </controlList>
+                                            </page>
+                                            <page description="Каталог">
+                                                <controlList>
+                                                    <tableBox ID="tableBoxCatalogProductList"
+                                                              class="av.frontSale.controls.tableBoxCatalogProductList.configurations.tableBoxCatalogProductList"
+                                                              template="av.frontSale|||$control:ID:tableBoxCatalogProductList"/>
+                                                </controlList>
+                                            </page>
+                                            <page description="Настройки">
+                                                <controlList>
+                                                    <objectListOptions
+                                                            ID="objectListOptions"
+                                                            linkL="panel"
+                                                            linkT="panel"
+                                                            linkB="panel"
+                                                            linkR="panel">
+                                                        <fieldList>
+                                                            <field fieldName="beginDate" description="Дата с:"
+                                                                   useComparison="0" comparison="greaterOrEqual"
+                                                                   valueType="iis-sql:dateTime"/>
+                                                            <field fieldName="endDate" description="по:"
+                                                                   useComparison="0" comparison="lessOrEqual"
+                                                                   valueType="iis-sql:dateTime"/>
+                                                            <field fieldName="Store" description="Склад:"
+                                                                   useComparison="0" comparison="equal" useValueList="1"
+                                                                   valueType="$CatalogRef.Склады"/>
+                                                        </fieldList>
+                                                        <eventGroup>
+                                                            <event name="@ObjectListOptionsGetFilterListMap">
+                                                                <event name="@ObjectListOptionsGetFilterListMap"/>
+                                                            </event>
+                                                        </eventGroup>
+                                                    </objectListOptions>
+                                                </controlList>
+                                            </page>
+                                        </pageList>
+                                    </panel>
+                                    <splitter ID="splitter2"
+                                              linkL="panel"
+                                              linkR="panel"
+                                              linkT="panelRightTop.linkB."
+                                              linkB="panelRightBottom.linkT."
+                                              height="4"/>
+                                    <panel ID="panelRightBottom"
+                                           class=".controls"
+                                           linkL="panel"
+                                           linkR="panel"
+                                           linkT="splitter2.linkT."
+                                           linkB="panel"
+                                           tabListPosition="top">
+                                        <pageList>
+                                            <page description="Информация" ID="Информация">
+                                                <controlList>
+                                                    <spreadsheetDocumentField ID="informationBlock"
+                                                                              linkT="panel"
+                                                                              linkL="panel"
+                                                                              linkR="panel"
+                                                                              linkB="panel"
+                                                                              class=".informationBlock"
+                                                                              horizontalScrollBar="0"
+                                                                              verticalScrollBar="0">
+                                                        <eventGroup>
+                                                            <event name="Update">
+                                                                <event name="Update">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter
+                                                                                name="@controlIN"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                        </eventGroup>
+                                                    </spreadsheetDocumentField>
+                                                </controlList>
+                                            </page>
+                                            <page description="Заказы" ID="Заказы">
+                                                <controlList>
+                                                    <commandBar
+                                                            template="av.frontSale|||$control:ID:commandBarProductList"/>
+                                                    <tableBox ID="tableBoxProductList"
+                                                              class=".tableBoxProductList"
+                                                              valueType="@function:GetBean"
+                                                              linkL="panel"
+                                                              linkR="panel"
+                                                              linkT="commandBarProductList.linkB."
+                                                              linkB="panel"
+                                                              init="1">
+                                                        <fieldList>
+                                                            <field data="manufacturer" description="Бренд" width="3"/>
+                                                            <field data="description" description="Описание" width="5"/>
+                                                            <field data="number" description="Артикул" width="3"/>
+                                                            <field data="quantity" description="Количество" width="2"/>
+                                                            <field data="price" description="Вход" width="2"/>
+                                                            <field data="price1" description="Выход" width="2"/>
+                                                            <field data="amount" description="Сумма" width="2"/>
+                                                            <field data="objectUUID" description="UUID"/>
+                                                            <field data="partner" description="Поставщик" width="2"/>
+                                                        </fieldList>
+                                                        <eventGroup>
+                                                            <event name="$TableBoxOnActivateRow">
+                                                                <event name="tableBoxCatalogProductListSetCurrentRow"
+                                                                       class="$control:ID:tableBoxProductList"/>
+                                                            </event>
+
+                                                            <event name="$TableBoxOnDataGet">
+                                                                <event name="OnDataGet"
+                                                                       class="av.frontSale.controls.tableBoxProductList">
+                                                                    <parameterList>
+                                                                        <parameter name="$controlOptions"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+
+                                                            <event name="$TableBoxAfterDeleteRow">
+                                                                <event name="LogJournalAddItem"
+                                                                       class="$control:ID:tableBoxProductList"/>
+                                                            </event>
+
+                                                            <event name="$TableBoxOnEditEnd">
+                                                                <event name="LogJournalAddItem"
+                                                                       class="$control:ID:tableBoxProductList"/>
+                                                            </event>
+
+                                                            <event name="CreateProduct">
+                                                                <event name="CreateProduct"
+                                                                       class="av.frontSale.controls.tableBoxProductList">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="$controlOptions"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                                <event name="tableBoxCatalogProductListSetCurrentRow"
+                                                                       class="$control:ID:tableBoxProductList"/>
+                                                            </event>
+
+                                                            <event name="AddProduct">
+                                                                <event name="AddProduct" class="$control:ID:panelRightBottom">
+                                                                    <parameterList>
+                                                                        <parameter name="EventName" value="@EventName"/>
+                                                                        <parameter name="Object" value="@Object"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                            <event name="AddProductByObjectUUID">
+                                                                <event name="AddProduct" class="av.frontSale.controls.tableBoxProductList.configurations.tableBoxProductList">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="@Object"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                            <event name="AddProductByPriceListLightRow">
+                                                                <event name="AddProductByPriceListLightRow">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="@Object"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                            <event name="LogJournalAddItem">
+                                                                <event name="LogJournalAddItem">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                                <event name="SetCurrentPage"
+                                                                       class="$control:ID:panelRightBottom">
+                                                                    <parameterList>
+                                                                        <parameter name="CurrentPage" value="Заказы"/>
+                                                                    </parameterList>
+                                                                </event>
+
+                                                            </event>
+                                                            <event name="CreateCDocument">
+                                                                <event name="CreateCDocument">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="$controlOptions"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                            <event name="tableBoxCatalogProductListSetCurrentRow">
+                                                                <event name="SetCurrentRow"
+                                                                       class="$control:ID:tableBoxCatalogProductList">
+                                                                    <parameterList>
+                                                                        <parameter name="objectUUID"
+                                                                                   value="@objectUUID"/>
+                                                                    </parameterList>
+                                                                    <before>
+                                                                        <event name="@TableBoxGetObjectUUIDByCurrentRow"/>
+                                                                    </before>
+                                                                </event>
+                                                            </event>
+
+                                                            <event name="TableBoxClearObjectList">
+                                                                <event name="@TableBoxClearObjectList"/>
+                                                            </event>
+                                                        </eventGroup>
+                                                    </tableBox>
+                                                </controlList>
+                                            </page>
+                                            <page ID="virtualNumberPage" description="Виртуальные номера">
+                                                <controlList>
+                                                    <tableBox ID="tableBoxCatalogVirtualNumberList"
+                                                              valueType="$CatalogList.VirtualNumber"
+                                                              linkL="panel"
+                                                              linkR="panel"
+                                                              linkT="panel"
+                                                              linkB="splitter3.linkT."
+                                                              class=".virtualNumberList">
+                                                        <fieldList>
+                                                            <field ID="dp" description="..." displayDefaultPicture="1"
+                                                                   width="1"/>
+                                                            <field ID="number" data="description"
+                                                                   description="Номер" width="20"/>
+                                                        </fieldList>
+                                                        <objectListOptions>
+                                                            <fieldList>
+                                                                <field fieldName="description"/>
+                                                            </fieldList>
+                                                        </objectListOptions>
+                                                        <eventGroup>
+                                                            <event name="$TableBoxOnActivateRow">
+                                                                <event name="TableBoxCatalogVirtualNumberListOnActivateRow">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="$control:ID:tableBoxVirtualNumberProductList"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                        </eventGroup>
+
+                                                    </tableBox>
+                                                    <splitter ID="splitter3"
+                                                              linkL="panel"
+                                                              linkR="panel"
+                                                              linkT="tableBoxCatalogVirtualNumberList.linkB."
+                                                              linkB="tableBoxVirtualNumberProductList.linkT."
+                                                              height="4"/>
+                                                    <tableBox ID="tableBoxVirtualNumberProductList"
+                                                              valueType="$InformationRegisterList.VirtualNumber"
+                                                              linkL="panel"
+                                                              linkR="panel"
+                                                              linkT="splitter3.linkT."
+                                                              linkB="panel"
+                                                              class=".virtualNumberList">
+
+                                                        <fieldList>
+                                                            <field ID="Product" data="Product"
+                                                                   description="Номенклатура" width="20"/>
+                                                            <field ID="Field_1" data="Field_1"
+                                                                   description="Поле" width="10"/>
+                                                        </fieldList>
+                                                        <objectListOptions>
+                                                            <fieldList>
+                                                                <field fieldName="Product"/>
+                                                            </fieldList>
+                                                        </objectListOptions>
+                                                        <eventGroup>
+                                                            <event name="TableBoxVirtualNumberProductListAddProduct">
+                                                                <event name="TableBoxVirtualNumberProductListAddProduct">
+                                                                    <parameterList>
+                                                                        <parameter name="$control"/>
+                                                                        <parameter name="$control:ID:tableBoxCatalogVirtualNumberList"/>
+                                                                        <parameter name="@Object"/>
+                                                                    </parameterList>
+                                                                </event>
+                                                            </event>
+                                                        </eventGroup>
+                                                    </tableBox>
+                                                </controlList>
+                                            </page>
+                                        </pageList>
+                                        <eventGroup>
+                                            <event name="SetCurrentPage">
+                                                <event name="@PanelSetCurrentPage">
+                                                    <parameterList>
+                                                        <parameter name="$control"/>
+                                                        <parameter name="@CurrentPage"/>
+                                                    </parameterList>
+                                                </event>
+                                            </event>
+                                            <event name="AddProduct">
+                                                <event name="@PanelGetCurrentPage"/>
+                                                <event  if='@EventName = "AddByObjectUUID" AND @CurrentPage &lt;&gt; "virtualNumberPage"'
+                                                       class="$control:ID:tableBoxProductList" name="AddProductByObjectUUID">
+                                                    <parameterList>
+                                                        <parameter name="Object" value="@Object"/>
+                                                    </parameterList>
+                                                </event>
+                                                <event  if='@EventName = "AddProductByPriceListLightRow" AND @CurrentPage &lt;&gt; "virtualNumberPage"'
+                                                        class="$control:ID:tableBoxProductList" name="AddProductByPriceListLightRow">
+                                                    <parameterList>
+                                                        <parameter name="Object" value="@Object"/>
+                                                    </parameterList>
+                                                </event>
+                                                <event  if='@CurrentPage = "virtualNumberPage"'
+                                                        class="$control:ID:tableBoxVirtualNumberProductList" name="TableBoxVirtualNumberProductListAddProduct">
+                                                    <parameterList>
+                                                        <parameter name="Object" value="@Object"/>
+                                                    </parameterList>
+                                                </event>
+                                            </event>
+                                        </eventGroup>
+                                    </panel>
+                                </controlList>
+                            </page>
+                        </pageList>
+                    </panel>
+                </controlList>
+            </page>
+        </pageList>
+    </panel>
+    <eventGroup>
+        <event name="$FormBeforeClose">
+            <event name="@FormBeforeClose"/>
+        </event>
+    </eventGroup>
+</form>
