@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel xsi:schemaLocation="iisis/schemas/2014/projects/singlec/iis/form ../../../../../xsd/2014/projects/singlec/iis/form/panel.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="iisis/schemas/2014/projects/singlec/iis/form"
+       linkL="panel"
+       linkB="panel"
+       linkR="panel"
+       linkT="panel"
+       class="av.reportList.priceListLight"
+       description="Отчет">
+    <pageList>
+
+        <page description="Главная">
+            <controlList>
+                <commandBar class=".controls.commandBar"
+                        linkL="panel"
+                        linkT="panel"
+                        linkB="av.reportList.priceListLight.linkT."
+                        linkR="panel"
+                        height="25"
+                        width="-1">
+                    <buttonList>
+                        <button type="Action" class="iis.reportList" description="Удалить">
+                            <eventGroup>
+                                <event name="$CommandBarButtonClick">
+                                    <event name="DeleteReportByCSChild" class="iis.reportList">
+                                        <parameterList>
+                                            <parameter name="$form"/>
+                                            <parameter name="$CSParent"/>
+                                        </parameterList>
+                                    </event>
+                                </event>
+                            </eventGroup>
+                        </button>
+                    </buttonList>
+                </commandBar>
+                <textBox class=".controls.textBoxSearch"
+                         linkL="panel"
+                         linkT=".controls.commandBar.linkB."
+                         linkR="panel"
+                         height="20"
+                        width="-1"
+                        clearButton="1">
+                    <eventGroup>
+                        <event name="$TextBoxAutoCompleteText">
+                            <event name="TextBoxAutoCompleteText">
+                                <parameterList>
+                                    <parameter name="$form"/>
+                                    <parameter name="$controlOptions"/>
+                                </parameterList>
+                            </event>
+                        </event>
+                        <event name="$TextBoxOnChange">
+                            <event name="TextBoxOnChange">
+                                <parameterList>
+                                    <parameter name="$form" />
+                                    <parameter name="$controlOptions"/>
+                                </parameterList>
+                            </event>
+                        </event>
+                    </eventGroup>
+                </textBox>
+                <spreadsheetDocumentField
+                        class="av.reportList.priceListLight"
+                        linkL="panel"
+                        linkT=".controls.textBoxSearch.linkB."
+                        linkB="panel"
+                        linkR="panel"
+                        width="-1"
+                        verticalScrollBar="0">
+
+                    <eventGroup>
+                        <event name="$SpreadsheetDocumentFieldSelection">
+                            <event name="SpreadsheetDocumentFieldSelection">
+                                <parameterList>
+                                    <parameter name="$form"/>
+                                    <parameter name="$controlOptions"/>
+                                </parameterList>
+
+                                <after>
+                                    <event name="AddProduct" class="$control:ID:reportList" if='@EventName = "AddProductByPriceListLightRow"'>
+                                        <parameterList>
+                                            <parameter name="EventName" value="@EventName"/>
+                                            <parameter name="Object" value="@Object"/>
+                                        </parameterList>
+                                    </event>
+                                    <event name="UpdateReportByNumber" class="$control:ID:reportList" if='@EventName = "UpdateReportByNumber"'>
+                                        <parameterList>
+                                            <parameter name="Value" value="@Value"/>
+                                        </parameterList>
+                                    </event>
+                                </after>
+                            </event>
+                        </event>
+                        <!--<event name="PriceListLightAddRow" class="av.frontSale.controls.tableBoxProductList">-->
+                        <!--<parameterList>-->
+                        <!--<parameter name="$control:ID:tableBoxProductList"/>-->
+                        <!--<parameter name="$P1"/>-->
+                        <!--</parameterList>-->
+                        <!--</event>-->
+                    </eventGroup>
+                </spreadsheetDocumentField>
+            </controlList>
+        </page>
+    </pageList>
+</panel>
