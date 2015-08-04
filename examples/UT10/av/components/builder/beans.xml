@@ -18,10 +18,10 @@
         </bean>
         <bean id="apg">
             <bean id="emex">
-                <property key="INN" value="7805610474"/>
+                <property key="INN" value=""/>
                 <bean id="db.http">
-                    <property key="login" value="198584"/>
-                    <property key="password" value="1ad5eeb"/>
+                    <property key="login" value=""/>
+                    <property key="password" value=""/>
                 </bean>
             </bean>
         </bean>
