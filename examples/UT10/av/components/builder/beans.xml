@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xsi:schemaLocation="iisis/schemas/2014/iis/beans ../../../../../../../projects/xsd/2014/iis/beans.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="iisis/schemas/2014/iis/beans">
+    <!--************ AV *************-->
+    <bean id="av">
+        <bean id="priceListLight">
+            <bean id="db">
+                <map id="emex">
+                    <property key="driver" value="av.apg.emex.priceListLight"/>
+                    <property key="FindByNumber" value="1"/>
+                </map>
+                <map id="singlec">
+                    <property key="driver" value="av.apg.singlec.priceListLight.configurations.priceListLight"/>
+                    <property key="FindByNumber" value="2"/>
+                    <property key="FindByDescription" value="2"/>
+                </map>
+            </bean>
+        </bean>
+        <bean id="apg">
+            <bean id="emex">
+                <property key="INN" value="7805610474"/>
+                <bean id="db.http">
+                    <property key="login" value="198584"/>
+                    <property key="password" value="1ad5eeb"/>
+                </bean>
+            </bean>
+        </bean>
+    </bean>
+    <!--************ IIS *************-->
+    <bean id="iis">
+        <bean id="form">
+            <map id="iis_db">
+                <property key="driver" value="iis.scope.db.singlec"/>
+            </map>
+        </bean>
+        <bean id="tempDirectory">
+            <map id="iis_db">
+                <property key="driver" value="iis.db.drivers.fileSystem"/>
+                <property key="parameters" value="Directory->d:\iisis\tmp\"/>
+            </map>
+        </bean>
+
+        <bean id="builder">
+            <property key="Configuration" value="UT10"/>
+        </bean>
+    </bean>
+
+</beans>

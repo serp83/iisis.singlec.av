@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xsi:schemaLocation="iisis/schemas/2014/projects/singlec/iis/form ../../../../../../../projects/singlec/iis/components/form/xsd/form.xsd"
+<form xsi:schemaLocation="iisis/schemas/2014/projects/singlec/iis/form ../../../iis/components/form/xsd/form.xsd"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns="iisis/schemas/2014/projects/singlec/iis/form" description="Фронт продаж">
     <panel>
@@ -28,57 +28,6 @@
                                                         <parameter name="$form"/>
                                                         <parameter name="$CSParent"/>
                                                         <parameter name="av.reportList.priceListLight"/>
-                                                    </parameterList>
-                                                </event>
-                                            </event>
-                                        </eventGroup>
-                                    </button>
-                                    <button ID="buttonFrontOrder"
-                                            description="Фронт заказов"
-                                            linkL="panel"
-                                            linkT="buttonReportAnalogList.linkB."
-                                            height="10%"
-                                            width="100%">
-                                        <eventGroup>
-                                            <event name="$ButtonClick">
-                                                <event class="iis.form" name="OpenNew">
-                                                    <parameterList>
-                                                        <parameter name="av.frontOrder"/>
-                                                        <parameter name="$form"/>
-                                                    </parameterList>
-                                                </event>
-                                            </event>
-                                        </eventGroup>
-                                    </button>
-                                    <button ID="buttonPriceListLoaderForm"
-                                            description="Загрузка прайсов"
-                                            linkL="panel"
-                                            linkT="buttonFrontOrder.linkB."
-                                            height="10%"
-                                            width="100%">
-                                        <eventGroup>
-                                            <event name="$ButtonClick">
-                                                <event class="iis.form" name="OpenNew">
-                                                    <parameterList>
-                                                        <parameter name="av.priceListLoader"/>
-                                                        <parameter name="$form"/>
-                                                    </parameterList>
-                                                </event>
-                                            </event>
-                                        </eventGroup>
-                                    </button>
-                                    <button ID="buttonOrderListLoader"
-                                            linkL="panel"
-                                            linkT="buttonPriceListLoaderForm.linkB."
-                                            height="10%"
-                                            width="100%"
-                                            description="Выгрузка заказов">
-                                        <eventGroup>
-                                            <event name="$ButtonClick">
-                                                <event class="iis.form" name="OpenNew">
-                                                    <parameterList>
-                                                        <parameter name="av.orderListLoader"/>
-                                                        <parameter name="$form"/>
                                                     </parameterList>
                                                 </event>
                                             </event>
@@ -175,7 +124,7 @@
                                             <page>
                                                 <controlList>
                                                     <tableBox ID="tableBoxCatalogProductList"
-                                                              class=".tableBoxCatalogProductList.configurations.tableBoxCatalogProductList"
+                                                              class=".tableBoxCatalogProductList.db.singlec"
                                                               valueType="$CatalogList.Номенклатура"
                                                               linkL="panel"
                                                               linkR="panel"
@@ -184,7 +133,7 @@
                                                         <fieldList>
                                                             <field ID="dp" description="..." displayDefaultPicture="1"
                                                                    width="1"/>
-                                                            <field ID="manufacturer" data="Бренд" description="Бренд"
+                                                            <field ID="manufacturer" data="Родитель" description="Бренд"
                                                                    width="5"/>
                                                             <field ID="number" data="Артикул" description="Номер"
                                                                    width="5"/>
@@ -193,7 +142,6 @@
                                                         </fieldList>
                                                         <objectListOptions>
                                                             <fieldList>
-                                                                <field fieldName="Бренд"/>
                                                                 <field fieldName="Артикул"/>
                                                                 <field fieldName="description"/>
                                                             </fieldList>

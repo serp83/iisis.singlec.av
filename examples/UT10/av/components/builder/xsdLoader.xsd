@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="iisis/schemas/2014/iisSinglec/components/singlec/xsdLoader"
+        elementFormDefault="unqualified"
+        attributeFormDefault="unqualified">
+	<!--***************IISIS***************-->
+	<import  schemaLocation="../../../../../../../projects/xsd/2014/iis/sql.xsd"/>
+	<import  schemaLocation="../../../../../../../projects/xsd/2014/iis/beans.xsd"/>
+	<import schemaLocation="../../../../../../../projects/xsd/2014/iis/objectListOptions.xsd"/>
+    <!--***************IISSINGLEC***************-->
+    <import schemaLocation="../../../../../../../projects/singlec/iis/components/form/xsd/form.xsd"/>
+
+	<!--***************CD***************-->
+	<import  schemaLocation="../../../../../../../projects/xsd/2014/cd/priceList.xsd"/>
+	<!--***************AV***************-->
+	<import  schemaLocation="../../../../../../../projects/xsd/2014/av/analogList.xsd"/>
+	<import  schemaLocation="../../../../../../../projects/xsd/2014/av/productList.xsd"/>
+	<import schemaLocation="../../../../../../../projects/xsd/2014/av/priceListLight/priceListLight.xsd"/>
+</schema>
