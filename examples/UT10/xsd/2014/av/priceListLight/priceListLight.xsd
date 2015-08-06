@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:av-priceListLight="iisis/schemas/2014/av/priceListLight"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        xmlns:av-manufacturerList="iisis/schemas/2014/av/manufacturerList"
+        xmlns:av-productList="iisis/schemas/2014/av/productList"
+        xmlns:av-analogList="iisis/schemas/2014/av/analogList"
+        targetNamespace="iisis/schemas/2014/av/priceListLight" elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../../iis/sql.xsd"/>
+    <import namespace="iisis/schemas/2014/av/manufacturerList" schemaLocation="../manufacturerList.xsd"/>
+    <import namespace="iisis/schemas/2014/av/productList" schemaLocation="../productList.xsd"/>
+    <import namespace="iisis/schemas/2014/av/analogList" schemaLocation="../analogList.xsd"/>
+
+
+    <complexType name="priceListRow">
+        <attribute name="i" type="iis-sql:ID"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
+        <attribute name="pi" type="iis-sql:ID"/>
+        <attribute name="mfi" type="iis-sql:ID"/>
+        <attribute name="mfd" type="iis-sql:string_255" id="manufacturerDescription"/>
+        <attribute name="d" type="iis-sql:string_255" id="description"/>
+        <attribute name="n" type="av-productList:number"/>
+        <attribute name="u" type="iis-sql:string_25" id="unit"/>
+        <attribute name="c" type="iis-sql:string_255" id="comment"/>
+        <attribute name="upd" type="iis-sql:dateTime" id="DateUpdate"/>
+        <attribute name="o" type="iis-sql:boolean" id="own"/>
+        <attribute name="pr" type="iis-sql:string_255" id="partner"/>
+        <attribute name="prui" type="iis-sql:UUID" id="senderUUID"/>
+        <attribute name="uri" type="iis-sql:string_255"/>
+        <attribute name="q" type="iis-sql:decimal_11_2" id="quantity"/>
+        <attribute name="p" type="iis-sql:decimal_11_2" id="price"/>
+        <attribute name="p1" type="iis-sql:decimal_11_2"/>
+        <attribute name="p2" type="iis-sql:decimal_11_2"/>
+        <attribute name="p3" type="iis-sql:decimal_11_2"/>
+        <attribute name="p4" type="iis-sql:decimal_11_2"/>
+        <attribute name="p5" type="iis-sql:decimal_11_2"/>
+        <attribute name="dp" type="iis-sql:string_25" id="deliveryPeriod"/>
+        <attribute name="mo" type="iis-sql:string_25" id="minimumOrder"/>
+    </complexType>
+    <complexType name="priceList">
+        <sequence>
+            <element name="product" type="av-priceListLight:priceListRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="priceListLight">
+        <sequence>
+            <element name="mfl" type="av-manufacturerList:manufacturerListLight"/>
+            <element name="pl" type="av-productList:productListLight"/>
+            <element name="al" type="av-analogList:analogListLight"/>
+            <element name="prl" type="av-priceListLight:priceList"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="parameterType">
+        <restriction base="iis-sql:string_25">
+            <enumeration value="other"/>
+        </restriction>
+    </simpleType>
+    <complexType name="parameter">
+        <attribute name="type" type="av-priceListLight:parameterType" use="required"/>
+        <attribute name="key" type="iis-sql:string_255" use="required"/>
+        <attribute name="value" type="iis-sql:string_255" use="required"/>
+    </complexType>
+    <complexType name="parameterList">
+        <sequence>
+            <element name="parameter" type="av-priceListLight:parameter" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="image">
+        <attribute name="uri" type="iis-sql:string_255"/>
+        <attribute name="description" type="iis-sql:string_255" use="required"/>
+    </complexType>
+    <complexType name="imageList">
+        <sequence>
+            <element name="image" type="av-priceListLight:image" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="product">
+        <sequence>
+            <element name="parameterList" type="av-priceListLight:parameterList"/>
+            <element name="imageList" type="av-priceListLight:imageList"/>
+        </sequence>
+    </complexType>
+
+    <element name="product" type="av-priceListLight:product"/>
+    <element name="priceListLight" type="av-priceListLight:priceListLight"/>
+
+</schema>

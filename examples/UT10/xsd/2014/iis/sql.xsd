@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/iis/sql"
+        elementFormDefault="qualified">
+    <attribute name="entity">
+        <simpleType>
+            <restriction base="string">
+                <enumeration value="entity"/>
+            </restriction>
+        </simpleType>
+    </attribute>
+    <simpleType name="int_11">
+        <annotation>
+            <documentation>for ID fields</documentation>
+        </annotation>
+        <restriction base="int"/>
+    </simpleType>
+    <simpleType name="ID">
+        <restriction base="iis-sql:int_11"/>
+    </simpleType>
+
+    <simpleType name="UUID">
+        <restriction base="string">
+            <maxLength value="36"/>
+            <pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="string_255">
+        <restriction base="string">
+            <maxLength value="255"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="string_50">
+        <restriction base="string">
+            <maxLength value="50"/>
+        </restriction>
+    </simpleType>
+    <simpleType name="string_25">
+        <restriction base="string">
+            <maxLength value="25"/>
+        </restriction>
+    </simpleType>
+    <simpleType name="boolean">
+        <restriction base="byte">
+            <minInclusive value="0"/>
+            <maxInclusive value="1"/>
+        </restriction>
+    </simpleType>
+    <simpleType name="decimal_11_2">
+        <restriction base="decimal"/>
+    </simpleType>
+    <simpleType name="decimal_11_3">
+        <restriction base="decimal"/>
+    </simpleType>
+    <simpleType name="dateTime">
+        <restriction base="dateTime"/>
+    </simpleType>
+
+    <simpleType name="dataTypeList">
+        <restriction base="string">
+            <enumeration value="boolean"/>
+            <enumeration value="int_11"/>
+            <enumeration value="decimal_11_2"/>
+            <enumeration value="decimal_11_3"/>
+            <enumeration value="ID"/>
+            <enumeration value="UUID"/>
+            <enumeration value="string_25"/>
+            <enumeration value="string_50"/>
+            <enumeration value="string_255"/>
+            <enumeration value="dateTime"/>
+        </restriction>
+    </simpleType>
+    <attribute name="objectUUID" type="iis-sql:UUID" default="00000000-0000-0000-0000-000000000000"/>
+    <attribute name="objectID" type="iis-sql:ID" default="0"/>
+</schema>

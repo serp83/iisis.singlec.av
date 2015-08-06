@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:av-manufacturerList="iisis/schemas/2014/av/manufacturerList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/av/manufacturerList" elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+
+    <simpleType name="description">
+        <restriction base="iis-sql:string_255"/>
+    </simpleType>
+
+    <simpleType name="descriptionStandart">
+        <restriction base="iis-sql:string_255"/>
+    </simpleType>
+
+    <simpleType name="descriptionAdapt">
+        <restriction base="iis-sql:string_255"/>
+    </simpleType>
+
+    <complexType name="manufacturer">
+        <attribute ref="iis-sql:objectID"/>
+        <attribute ref="iis-sql:objectUUID"/>
+        <attribute name="description" type="av-manufacturerList:description" use="required"/>
+        <attribute name="descriptionAdapt" type="av-manufacturerList:description" use="required"/>
+    </complexType>
+    <complexType name="manufacturerList">
+        <sequence>
+            <element name="manufacturer" type="av-manufacturerList:manufacturer"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="manufacturerListLightRow">
+        <attribute name="i" type="iis-sql:ID"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
+        <attribute name="ds" type="av-manufacturerList:descriptionStandart"/>
+        <attribute name="da" type="av-manufacturerList:descriptionAdapt"/>
+    </complexType>
+    <complexType name="manufacturerListLight">
+        <sequence>
+            <element name="mf" type="av-manufacturerList:manufacturerListLightRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="manufacturerList" type="av-manufacturerList:manufacturerList"/>
+</schema>

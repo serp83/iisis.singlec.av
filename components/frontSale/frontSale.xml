@@ -38,9 +38,10 @@
                         </pageList>
                         <eventGroup>
                             <event name="AddProduct">
-                                <event class="$control:ID:tableBoxProductList"
-                                       name="AddProductByPriceListLightRow">
+                                <event name="AddProduct"
+                                       class="$control:ID:panelRightBottom">
                                     <parameterList>
+                                        <parameter name="EventName" value="@EventName"/>
                                         <parameter name="Object" value="@Object"/>
                                     </parameterList>
                                 </event>
@@ -124,7 +125,7 @@
                                             <page>
                                                 <controlList>
                                                     <tableBox ID="tableBoxCatalogProductList"
-                                                              class=".tableBoxCatalogProductList.db.singlec"
+                                                              class=".tableBoxCatalogProductList"
                                                               valueType="$CatalogList.Номенклатура"
                                                               linkL="panel"
                                                               linkR="panel"
@@ -164,9 +165,10 @@
                                                                     </before>
                                                                 </event>
                                                                 <event if='@CurrentColumnName = "description"'
-                                                                       class="$control:ID:tableBoxProductList"
-                                                                       name="AddProductByObjectUUID">
+                                                                       class="$control:ID:panelRightBottom"
+                                                                       name="AddProduct">
                                                                     <parameterList>
+                                                                        <parameter name="EventName" value="AddByObjectUUID"/>
                                                                         <parameter name="Object" value="@Object"/>
                                                                     </parameterList>
                                                                     <before>
@@ -203,7 +205,7 @@
                                            linkT="splitter2.linkT."
                                            linkB="panel">
                                         <pageList>
-                                            <page>
+                                            <page ID="pageBasket" description="Корзина">
                                                 <controlList>
                                                     <commandBar ID="commandBarProductList"
                                                                 linkL="panel"
@@ -287,8 +289,7 @@
                                                             </event>
 
                                                             <event name="AddProductByObjectUUID">
-                                                                <event name="AddProduct"
-                                                                       class=".configurations.tableBoxProductList">
+                                                                <event name="AddProduct">
                                                                     <parameterList>
                                                                         <parameter name="$control"/>
                                                                         <parameter name="@Object"/>
@@ -333,6 +334,24 @@
                                                 </controlList>
                                             </page>
                                         </pageList>
+                                        <eventGroup>
+                                            <event name="AddProduct">
+                                                <event if='@EventName = "AddByObjectUUID"'
+                                                       class="$control:ID:tableBoxProductList"
+                                                       name="AddProductByObjectUUID">
+                                                    <parameterList>
+                                                        <parameter name="Object" value="@Object"/>
+                                                    </parameterList>
+                                                </event>
+                                                <event if='@EventName = "AddProductByPriceListLightRow"'
+                                                       class="$control:ID:tableBoxProductList"
+                                                       name="AddProductByPriceListLightRow">
+                                                    <parameterList>
+                                                        <parameter name="Object" value="@Object"/>
+                                                    </parameterList>
+                                                </event>
+                                            </event>
+                                        </eventGroup>
                                     </panel>
                                 </controlList>
                             </page>
