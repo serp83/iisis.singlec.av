@@ -8,7 +8,7 @@
 	<import  schemaLocation="../../../xsd/2014/iis/beans.xsd"/>
 	<import schemaLocation="../../../xsd/2014/iis/objectListOptions.xsd"/>
     <!--***************IISSINGLEC***************-->
-    <import schemaLocation="../../../../../../../singlec/iis/components/form/xsd/form.xsd"/>
+    <import schemaLocation="../../../../../../iis/components/form/xsd/form.xsd"/>
 
 	<!--***************CD***************-->
 	<import  schemaLocation="../../../xsd/2014/cd/priceList.xsd"/>
