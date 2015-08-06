@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xsi:schemaLocation="iisis/schemas/2014/iis/beans ../../../../../../../projects/xsd/2014/iis/beans.xsd"
+<beans xsi:schemaLocation="iisis/schemas/2014/iis/beans ../../../xsd/2014/iis/beans.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="iisis/schemas/2014/iis/beans">
     <!--************ AV *************-->
     <bean id="av">
@@ -10,7 +10,7 @@
                     <property key="FindByNumber" value="1"/>
                 </map>
                 <map id="singlec">
-                    <property key="driver" value="av.apg.singlec.priceListLight.configurations.priceListLight"/>
+                    <property key="driver" value="av.apg.singlec.priceListLight"/>
                     <property key="FindByNumber" value="2"/>
                     <property key="FindByDescription" value="2"/>
                 </map>
@@ -19,6 +19,9 @@
         <bean id="apg">
             <bean id="emex">
                 <property key="INN" value=""/>
+                <bean id="priceListLight">
+                    <property key="UseAnalogList" value="1"/>
+                </bean>
                 <bean id="db.http">
                     <property key="login" value=""/>
                     <property key="password" value=""/>
@@ -32,16 +35,6 @@
             <map id="iis_db">
                 <property key="driver" value="iis.scope.db.singlec"/>
             </map>
-        </bean>
-        <bean id="tempDirectory">
-            <map id="iis_db">
-                <property key="driver" value="iis.db.drivers.fileSystem"/>
-                <property key="parameters" value="Directory->d:\iisis\tmp\"/>
-            </map>
-        </bean>
-
-        <bean id="builder">
-            <property key="Configuration" value="UT10"/>
         </bean>
     </bean>
 
