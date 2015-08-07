@@ -4,17 +4,17 @@
         elementFormDefault="unqualified"
         attributeFormDefault="unqualified">
 	<!--***************IISIS***************-->
-	<import  schemaLocation="../../../xsd/2014/iis/sql.xsd"/>
-	<import  schemaLocation="../../../xsd/2014/iis/beans.xsd"/>
-	<import schemaLocation="../../../xsd/2014/iis/objectListOptions.xsd"/>
+	<import schemaLocation="http://iisis.ru/projects/xsd/2014/iis/sql.xsd"/>
+
+	<import schemaLocation="http://iisis.ru/projects/xsd/2014/iis/beans.xsd"/>
     <!--***************IISSINGLEC***************-->
-    <import schemaLocation="../../../../../../iis/components/form/xsd/form.xsd"/>
+    <import schemaLocation="http://iisis.ru/projects/xsd/2014/projects/singlec/iis/form/form.xsd"/>
 
 	<!--***************CD***************-->
-	<import  schemaLocation="../../../xsd/2014/cd/priceList.xsd"/>
-	<import  schemaLocation="../../../xsd/2014/cd/order.xsd"/>
+	<import  schemaLocation="http://iisis.ru/projects/xsd/2014/cd/priceList.xsd"/>
+	<import  schemaLocation="http://iisis.ru/projects/xsd/2014/cd/order.xsd"/>
 	<!--***************AV***************-->
-	<import  schemaLocation="../../../xsd/2014/av/analogList.xsd"/>
-	<import  schemaLocation="../../../xsd/2014/av/productList.xsd"/>
-	<import schemaLocation="../../../xsd/2014/av/priceListLight/priceListLight.xsd"/>
+	<import  schemaLocation="http://iisis.ru/projects/xsd/2014/av/analogList.xsd"/>
+	<import  schemaLocation="http://iisis.ru/projects/xsd/2014/av/productList.xsd"/>
+	<import schemaLocation="http://iisis.ru/projects/xsd/2014/av/priceListLight.xsd"/>
 </schema>
