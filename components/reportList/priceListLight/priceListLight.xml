@@ -78,7 +78,7 @@
                                 </parameterList>
 
                                 <after>
-                                    <event name="AddProduct" class="$control:ID:reportList" if='@EventName = "AddProductByPriceListLightRow"'>
+                                    <event name="AddProduct" class="$control:ID:reportList" if='@EventName = "AddProductByPriceProductListLightRow"'>
                                         <parameterList>
                                             <parameter name="EventName" value="@EventName"/>
                                             <parameter name="Object" value="@Object"/>

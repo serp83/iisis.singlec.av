@@ -296,8 +296,8 @@
                                                                     </parameterList>
                                                                 </event>
                                                             </event>
-                                                            <event name="AddProductByPriceListLightRow">
-                                                                <event name="AddProductByPriceListLightRow">
+                                                            <event name="AddProductByPriceProductListLightRow">
+                                                                <event name="AddProductByPriceProductListLightRow">
                                                                     <parameterList>
                                                                         <parameter name="$control"/>
                                                                         <parameter name="@Object"/>
@@ -343,9 +343,9 @@
                                                         <parameter name="Object" value="@Object"/>
                                                     </parameterList>
                                                 </event>
-                                                <event if='@EventName = "AddProductByPriceListLightRow"'
+                                                <event if='@EventName = "AddProductByPriceProductListLightRow"'
                                                        class="$control:ID:tableBoxProductList"
-                                                       name="AddProductByPriceListLightRow">
+                                                       name="AddProductByPriceProductListLightRow">
                                                     <parameterList>
                                                         <parameter name="Object" value="@Object"/>
                                                     </parameterList>
