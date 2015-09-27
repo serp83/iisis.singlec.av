@@ -33,7 +33,7 @@
     <bean id="iis">
         <bean id="form">
             <map id="iis_db">
-                <property key="driver" value="iis.scope.db.singlec"/>
+                <property key="driver" value="av.apg.singlec.scope"/>
             </map>
         </bean>
     </bean>
