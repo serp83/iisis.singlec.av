@@ -23,8 +23,8 @@
                     <property key="UseAnalogList" value="1"/>
                 </bean>
                 <bean id="db.http">
-                    <property key="login" value=""/>
-                    <property key="password" value=""/>
+                    <property key="login" value="198584"/>
+                    <property key="password" value="1ad5eeb"/>
                 </bean>
             </bean>
         </bean>

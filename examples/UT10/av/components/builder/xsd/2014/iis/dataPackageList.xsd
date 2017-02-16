@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:iis-dataPackageList="iisis/schemas/2014/iis/dataPackageList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/iis/dataPackageList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="sql.xsd"/>
+    <simpleType name="status">
+        <restriction base="iis-sql:int_11">
+            <enumeration value="0"/>
+        </restriction>
+    </simpleType>
+    <attributeGroup name="BasicFields">
+        <attribute ref="iis-sql:objectUUID"/>
+        <attribute name="status" type="iis-dataPackageList:status" default="0"/>
+        <attribute name="date" type="iis-sql:dateTime" use="required"/>
+        <attribute name="route" type="iis-sql:boolean" use="required"/>
+        <attribute name="recipient" type="iis-sql:string_255" use="required"/>
+        <attribute name="sender" type="iis-sql:string_255" use="required"/>
+        <attribute name="description" type="iis-sql:string_255"/>
+        <attribute name="comment" type="iis-sql:string_255"/>
+    </attributeGroup>
+    <complexType name="attachment">
+        <attribute ref="iis-sql:objectUUID"/>
+        <attribute name="name" type="iis-sql:string_255" use="required"/>
+    </complexType>
+    <complexType name="attachmentList">
+        <sequence>
+            <element name="attachment" type="iis-dataPackageList:attachment" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="dataPackage">
+        <sequence>
+            <element name="attachmentList" type="iis-dataPackageList:attachmentList" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+        <attributeGroup ref="iis-dataPackageList:BasicFields"/>
+    </complexType>
+    <complexType name="dataPackageListItem">
+        <attributeGroup ref="iis-dataPackageList:BasicFields"/>
+    </complexType>
+    <complexType name="dataPackageList">
+        <sequence>
+            <element name="dataPackage" type="iis-dataPackageList:dataPackageListItem" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <element name="dataPackage" type="iis-dataPackageList:dataPackage"/>
+    <element name="dataPackageList" type="iis-dataPackageList:dataPackageList"/>
+</schema>

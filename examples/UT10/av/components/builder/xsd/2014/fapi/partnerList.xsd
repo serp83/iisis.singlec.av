@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:fapi-partnerList="iisis/schemas/2014/fapi/partnerList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/fapi/partnerList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+    <complexType name="partnerListRow">
+        <attribute name="i" type="iis-sql:ID"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
+        <attribute name="description" type="iis-sql:string_255"/>
+        <attribute name="email" type="iis-sql:string_255"/>
+        <attribute name="apiKey" type="iis-sql:UUID"/>
+        <attribute name="rating" type="iis-sql:int_11"/>
+    </complexType>
+    <complexType name="partnerList">
+        <sequence>
+            <element name="p" type="fapi-partnerList:partnerListRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="partnerList" type="fapi-partnerList:partnerList"/>
+    <element name="partnerListRow" type="fapi-partnerList:partnerListRow"/>
+</schema>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:fapi-sourceList="iisis/schemas/2014/fapi/sourceList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/fapi/sourceList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+    <complexType name="sourceListRow">
+        <attribute name="i" type="iis-sql:ID"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
+        <attribute name="pri" type="iis-sql:ID"/>
+        <attribute name="d" type="iis-sql:string_255"/>
+        <attribute name="r" type="iis-sql:int_11"/>
+    </complexType>
+    <complexType name="sourceList">
+        <sequence>
+            <element name="s" type="fapi-sourceList:sourceListRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="sourceList" type="fapi-sourceList:sourceList"/>
+    <element name="sourceListRow" type="fapi-sourceList:sourceListRow"/>
+</schema>

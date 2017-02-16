@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        xmlns:av-productList="iisis/schemas/2014/av/productList"
+        targetNamespace="iisis/schemas/2014/av/productList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+
+    <simpleType name="number">
+        <restriction base="iis-sql:string_25"></restriction>
+    </simpleType>
+    <simpleType name="numberStandart">
+        <restriction base="iis-sql:string_25"></restriction>
+    </simpleType>
+
+    <complexType name="productListLightRow">
+        <attribute name="i" type="iis-sql:ID" use="required"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
+        <attribute name="mfi" type="iis-sql:ID" use="required"/>
+        <attribute name="ns" type="av-productList:numberStandart"/>
+    </complexType>
+    <complexType name="productListLight">
+        <sequence>
+            <element name="p" type="av-productList:productListLightRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="parameterType">
+        <restriction base="iis-sql:string_25">
+            <enumeration value="other"/>
+        </restriction>
+    </simpleType>
+    <complexType name="parameter">
+        <attribute name="type" type="av-productList:parameterType" use="required"/>
+        <attribute name="key" type="iis-sql:string_255" use="required"/>
+        <attribute name="value" type="iis-sql:string_255" use="required"/>
+    </complexType>
+    <complexType name="parameterList">
+        <sequence>
+            <element name="parameter" type="av-productList:parameter" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="image">
+        <attribute name="uri" type="iis-sql:string_255"/>
+        <attribute name="description" type="iis-sql:string_255" use="required"/>
+    </complexType>
+    <complexType name="imageList">
+        <sequence>
+            <element name="image" type="av-productList:image" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="product">
+        <sequence>
+            <element name="parameterList" type="av-productList:parameterList"/>
+            <element name="imageList" type="av-productList:imageList"/>
+        </sequence>
+    </complexType>
+
+    <element name="product" type="av-productList:product"/>
+    <element name="productListLight" type="av-productList:productListLight"/>
+</schema>

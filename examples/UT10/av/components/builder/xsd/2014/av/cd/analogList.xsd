@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:cd-analogList="iisis/schemas/2014/av/cd/analogList"
+        xmlns:cd-cDocumentList="iisis/schemas/2014/cd/cDocumentList"
+        xmlns:av-analogList="iisis/schemas/2014/av/analogList"
+        targetNamespace="iisis/schemas/2014/av/cd/analogList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/av/analogList" schemaLocation="../analogList.xsd"/>
+    <import namespace="iisis/schemas/2014/cd/cDocumentList" schemaLocation="../../cd/cDocumentList.xsd"/>
+
+    <complexType name="analogList">
+        <complexContent>
+            <extension base="cd-cDocumentList:cDocument">
+                <sequence>
+                    <element ref="av-analogList:analogList"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    <element name="analogList" type="cd-analogList:analogList"/>
+</schema>

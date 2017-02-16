@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<panel xsi:schemaLocation="iisis/schemas/2014/projects/singlec/iis/form ../../../../iis/components/form/xsd/panel.xsd"
+<panel xsi:schemaLocation="iisis/schemas/2014/projects/singlec/iis/form ../../../../../xsd/2014/projects/singlec/iis/form/form.xsd"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="iisis/schemas/2014/projects/singlec/iis/form"
        linkL="panel"
@@ -27,6 +27,17 @@
                                         <parameterList>
                                             <parameter name="$form"/>
                                             <parameter name="$CSParent"/>
+                                        </parameterList>
+                                    </event>
+                                </event>
+                            </eventGroup>
+                        </button>
+                        <button type="Action" class="av.reportList.priceListLight" description="Авто">
+                            <eventGroup>
+                                <event name="$CommandBarButtonClick">
+                                    <event name="SetTypeFindReport">
+                                        <parameterList>
+                                            <parameter name="$CS"/>
                                         </parameterList>
                                     </event>
                                 </event>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:iis-cProfileList="iisis/schemas/2014/iis/cProfileList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/iis/cProfileList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="sql.xsd"/>
+
+    <simpleType name="cProfileType">
+        <restriction base="iis-sql:string_25">
+            <enumeration value="http"/>
+            <enumeration value="email"/>
+            <enumeration value="ftp"/>
+            <enumeration value="fileSystem"/>
+            <enumeration value="db"/>
+        </restriction>
+    </simpleType>
+    <attributeGroup name="cProfileAttributeGroup">
+        <attribute ref="iis-sql:objectUUID"/>
+        <attribute name="description" type="iis-sql:string_255" use="required"/>
+        <attribute name="type" type="iis-cProfileList:cProfileType" use="required"/>
+    </attributeGroup>
+    <complexType name="cProfileNode">
+        <attribute name="uri" type="iis-sql:string_255" use="required"/>
+        <attribute name="login" type="iis-sql:string_25" use="required"/>
+        <attribute name="password" type="iis-sql:string_25" use="required"/>
+        <attribute name="useDefault" type="iis-sql:boolean" use="required"/>
+    </complexType>
+    <complexType name="cProfile">
+        <sequence>
+            <element name="cProfileNode" type="iis-cProfileList:cProfileNode" maxOccurs="unbounded"/>
+        </sequence>
+        <attributeGroup ref="iis-cProfileList:cProfileAttributeGroup"/>
+    </complexType>
+    <complexType name="cProfileList">
+        <sequence>
+            <element name="cProfile" minOccurs="0" maxOccurs="unbounded">
+                <complexType>
+                    <attributeGroup ref="iis-cProfileList:cProfileAttributeGroup"/>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="cProfile" type="iis-cProfileList:cProfile"/>
+    <element name="cProfileList" type="iis-cProfileList:cProfileList"/>
+</schema>

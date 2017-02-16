@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:iis-olo="iisis/schemas/2014/iis/objectListOptions"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/iis/objectListOptions"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="sql.xsd"/>
+
+    <simpleType name="fieldName">
+        <restriction base="iis-sql:string_25">
+            <pattern value="[a-zA-Z0-9а-яА-Я_]+"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="filterOperatorType">
+        <restriction base="string">
+            <enumeration value="and"/>
+            <enumeration value="or"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="comparison">
+        <restriction base="string">
+            <enumeration value="equal"/>
+            <enumeration value="notEqual"/>
+            <enumeration value="less"/>
+            <enumeration value="lessOrEqual"/>
+            <enumeration value="greater"/>
+            <enumeration value="greaterOrEqual"/>
+            <enumeration value="contains"/>
+            <enumeration value="notContains"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="orderDirection">
+        <restriction base="string">
+            <enumeration value="desc"/>
+            <enumeration value="asc"/>
+        </restriction>
+    </simpleType>
+
+    <complexType name="field">
+        <sequence>
+            <element name="value" type="string" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="fieldName" type="iis-olo:fieldName" use="required"/>
+    </complexType>
+
+    <complexType name="fieldList">
+        <sequence>
+            <element name="field" type="iis-olo:field" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="filter">
+        <sequence>
+            <element name="value" type="anyType" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="fieldName" type="iis-olo:fieldName" use="required"/>
+        <attribute name="comparison" type="iis-olo:comparison" use="required"/>
+    </complexType>
+
+    <complexType name="filterOperator">
+        <sequence>
+            <element name="filter" type="iis-olo:filter" maxOccurs="unbounded"/>
+            <element name="filterOperator" type="iis-olo:filterOperator" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="type" type="iis-olo:filterOperatorType" use="required"/>
+    </complexType>
+
+    <complexType name="orderList">
+        <sequence>
+            <element name="order" maxOccurs="unbounded">
+                <complexType>
+                    <attribute name="fieldName" type="iis-olo:fieldName" use="required"/>
+                    <attribute name="orderDirection" type="iis-olo:orderDirection" use="required"/>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="objectListOptions">
+        <sequence>
+            <element name="fieldList" type="iis-olo:fieldList" minOccurs="0"/>
+            <element name="filterOperator" type="iis-olo:filterOperator" minOccurs="0"/>
+            <element name="orderList" type="iis-olo:orderList" minOccurs="0"/>
+        </sequence>
+        <attribute name="objectList" type="iis-sql:string_25" use="required"/>
+        <attribute name="limitRows" type="iis-sql:int_11"/>
+    </complexType>
+
+    <element name="objectListOptions" type="iis-olo:objectListOptions"/>
+</schema>

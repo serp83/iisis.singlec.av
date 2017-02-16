@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:iis-productList="iisis/schemas/2014/iis/productList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+         targetNamespace="iisis/schemas/2014/iis/productList"
+        elementFormDefault="qualified">
+	<import namespace="iisis/schemas/2014/iis/sql" schemaLocation="sql.xsd"/>
+
+    <simpleType name="rateVAT">
+        <restriction base="iis-sql:int_11">
+            <enumeration value="-1"/>
+            <enumeration value="0"/>
+            <enumeration value="10"/>
+            <enumeration value="10110"/>
+            <enumeration value="18"/>
+            <enumeration value="18118"/>
+            <enumeration value="20"/>
+            <enumeration value="20120"/>
+        </restriction>
+    </simpleType>
+    <attributeGroup name="productFields">
+        <attribute ref="iis-sql:objectID"/>
+        <attribute ref="iis-sql:objectUUID"/>
+        <attribute name="description" type="iis-sql:string_255" use="required"/>
+    </attributeGroup>
+    <complexType name="product">
+        <attribute name="manufacturer" type="iis-sql:string_255"/>
+        <attribute name="number" type="iis-sql:string_255"/>
+        <attribute name="unit" type="iis-sql:string_25"/>
+        <attribute name="rateVAT" type="iis-productList:rateVAT" default="-1"/>
+        <attribute name="comment" type="iis-sql:string_255"/>
+        <attributeGroup ref="iis-productList:productFields"/>
+    </complexType>
+</schema>

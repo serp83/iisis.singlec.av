@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:cd-cDocumentList="iisis/schemas/2014/cd/cDocumentList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/cd/cDocumentList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+
+    <attributeGroup name="cDocumentBasicFields">
+        <attribute ref="iis-sql:objectID"/>
+        <attribute ref="iis-sql:objectUUID"/>
+        <attribute name="objectDate" type="iis-sql:dateTime" use="required"/>
+        <attribute name="objectRecipientUUID" type="iis-sql:UUID" use="required"/>
+        <attribute name="objectSenderUUID" type="iis-sql:UUID" use="required"/>
+        <attribute name="objectType" type="iis-sql:string_25" use="required"/>
+        <attribute name="objectRoute" type="iis-sql:boolean" use="required"/>
+        <attribute name="objectStatus" type="iis-sql:int_11" use="required"/>
+    </attributeGroup>
+    <attributeGroup name="cDocumentFields">
+        <attribute name="number" type="iis-sql:string_25" use="required"/>
+        <attribute name="date" type="iis-sql:dateTime"/>
+        <attribute name="comment" type="iis-sql:string_255"/>
+    </attributeGroup>
+
+
+    <complexType name="cDocument">
+		<attributeGroup ref="cd-cDocumentList:cDocumentBasicFields"/>
+		<attributeGroup ref="cd-cDocumentList:cDocumentFields"/>
+	</complexType>
+	<complexType name="cDocumentList">
+		<sequence>
+			<element name="cDocument" type="cd-cDocumentList:cDocument" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<element name="cDocument" type="cd-cDocumentList:cDocument"/>
+	<element name="cDocumentList" type="cd-cDocumentList:cDocumentList" />
+</schema>

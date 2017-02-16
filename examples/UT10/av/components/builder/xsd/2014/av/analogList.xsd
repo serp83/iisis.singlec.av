@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:av-analogList="iisis/schemas/2014/av/analogList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        xmlns:av-productList="iisis/schemas/2014/av/productList"
+        xmlns:av-manufacturerList="iisis/schemas/2014/av/manufacturerList"
+        targetNamespace="iisis/schemas/2014/av/analogList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+    <import namespace="iisis/schemas/2014/av/productList" schemaLocation="../av/productList.xsd"/>
+    <import namespace="iisis/schemas/2014/av/manufacturerList" schemaLocation="../av/manufacturerList.xsd"/>
+    <complexType name="analogListLightRow">
+        <attribute name="i" type="iis-sql:ID" use="required"/>
+        <attribute name="pi" type="iis-sql:ID" use="required"/>
+        <attribute name="mfi" type="iis-sql:ID" use="required"/>
+        <attribute name="ns" type="av-productList:numberStandart"/>
+        <attribute name="pia" type="iis-sql:ID" use="required"/>
+        <attribute name="mfia" type="iis-sql:ID" use="required"/>
+        <attribute name="int" type="iis-sql:boolean"/>
+    </complexType>
+    <complexType name="analogListLight">
+        <sequence>
+            <element name="a" type="av-analogList:analogListLightRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="analogListRow">
+        <attribute ref="iis-sql:objectUUID"/>
+        <attribute name="manufacturerAdapt" type="av-manufacturerList:descriptionAdapt"/>
+        <attribute name="numberStandart" type="av-productList:numberStandart"/>
+        <attribute name="manufacturerAdaptAnalog" type="av-manufacturerList:descriptionAdapt"/>
+        <attribute name="numberStandartAnalog" type="av-productList:numberStandart"/>
+        <attribute name="incorrect" type="iis-sql:boolean"/>
+    </complexType>
+    <complexType name="analogList">
+        <sequence>
+            <element name="analogListRow" type="av-analogList:analogListRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <element name="analogList" type="av-analogList:analogList"/>
+    <element name="analogListLight" type="av-analogList:analogListLight"/>
+</schema>

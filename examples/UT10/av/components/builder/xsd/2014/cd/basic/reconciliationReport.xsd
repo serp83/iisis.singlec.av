@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cd-rr="iisis/schemas/2014/cd/reconciliationReport" xmlns:iis-sql="iisis/schemas/2014/iis/sql" xmlns:cd-core="iisis/schemas/2014/cd/core" targetNamespace="iisis/schemas/2014/cd/reconciliationReport" elementFormDefault="qualified">
+	<import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../../iis/sql.xsd"/>
+	<!--<complexType name="reconciliationReport">-->
+		<!--<sequence>-->
+			<!--<element name="organizationDocuments">-->
+				<!--<complexType>-->
+					<!--<sequence>-->
+						<!--<element name="document" minOccurs="0" maxOccurs="unbounded">-->
+							<!--<complexType>-->
+								<!--<attribute name="date" type="dateTime"/>-->
+								<!--<attribute name="document" type="iis-sql:string_255"/>-->
+								<!--<attribute name="documentNumber" type="iis-sql:string_25"/>-->
+								<!--<attribute name="debit" type="iis-sql:decimal_11_2"/>-->
+								<!--<attribute name="credit" type="iis-sql:decimal_11_2"/>-->
+							<!--</complexType>-->
+						<!--</element>-->
+					<!--</sequence>-->
+				<!--</complexType>-->
+			<!--</element>-->
+			<!--<element name="partnerDocuments">-->
+				<!--<complexType>-->
+					<!--<sequence>-->
+						<!--<element name="Document" minOccurs="0" maxOccurs="unbounded">-->
+							<!--<complexType>-->
+								<!--<attribute name="date" type="dateTime"/>-->
+								<!--<attribute name="document" type="iis-sql:string_255"/>-->
+								<!--<attribute name="documentNumber" type="iis-sql:string_25"/>-->
+								<!--<attribute name="debit" type="decimal"/>-->
+								<!--<attribute name="credit" type="decimal"/>-->
+							<!--</complexType>-->
+						<!--</element>-->
+					<!--</sequence>-->
+				<!--</complexType>-->
+			<!--</element>-->
+		<!--</sequence>-->
+		<!--<attributeGroup ref="cd-core:cDocumentBasicFields"/>-->
+		<!--<attributeGroup ref="cd-core:cDocumentFields"/>-->
+		<!--<attribute name="dateBegin" type="dateTime"/>-->
+		<!--<attribute name="dateEnd" type="dateTime"/>-->
+	<!--</complexType>-->
+	<!--<element name="CDocumentReconciliationReport" type="cd-rr:reconciliationReport"/>-->
+</schema>

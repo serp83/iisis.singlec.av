@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:av-priceListLight="iisis/schemas/2014/av/priceListLight"
+        xmlns:av-manufacturerList="iisis/schemas/2014/av/manufacturerList"
+        xmlns:av-productList="iisis/schemas/2014/av/productList"
+        xmlns:av-analogList="iisis/schemas/2014/av/analogList"
+        xmlns:av-priceList="iisis/schemas/2014/av/priceList"
+        targetNamespace="iisis/schemas/2014/av/priceListLight" elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/av/manufacturerList" schemaLocation="../av/manufacturerList.xsd"/>
+    <import namespace="iisis/schemas/2014/av/productList" schemaLocation="../av/productList.xsd"/>
+    <import namespace="iisis/schemas/2014/av/analogList" schemaLocation="../av/analogList.xsd"/>
+    <import namespace="iisis/schemas/2014/av/priceList" schemaLocation="../av/priceList.xsd"/>
+
+    <complexType name="priceListLight">
+        <sequence>
+            <element ref="av-manufacturerList:manufacturerListLight"/>
+            <element ref="av-productList:productListLight"/>
+            <element ref="av-analogList:analogListLight"/>
+            <element ref="av-priceList:priceProductListLight">
+            </element>
+        </sequence>
+    </complexType>
+
+    <element name="priceListLight" type="av-priceListLight:priceListLight"/>
+
+</schema>

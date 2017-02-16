@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:cd-cdplList="iisis/schemas/2014/cd/cdplList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/cd/cdplList" elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+
+    <attributeGroup name="cdplBasicFields">
+        <attribute ref="iis-sql:objectID"/>
+        <attribute ref="iis-sql:objectUUID"/>
+        <attribute name="objectRoute" type="iis-sql:boolean" default="0"/>
+        <attribute name="description" type="iis-sql:string_255" use="required"/>
+        <attribute name="use" type="iis-sql:boolean" use="required"/>
+        <attribute name="cDocumentType" type="iis-sql:string_25" use="required"/>
+        <attribute name="senderUUID" type="iis-sql:UUID"/>
+    </attributeGroup>
+    <attributeGroup name="functionGetValueShift">
+        <attribute name="shiftRow" type="iis-sql:int_11"/>
+        <attribute name="shiftColumn" type="iis-sql:int_11"/>
+    </attributeGroup>
+    <complexType name="functionGetValue">
+        <choice>
+            <element name="getByAddress">
+                <complexType>
+                    <attribute name="row" type="iis-sql:int_11" use="required"/>
+                    <attribute name="column" type="iis-sql:int_11" use="required"/>
+                    <attributeGroup ref="cd-cdplList:functionGetValueShift"/>
+                </complexType>
+            </element>
+            <element name="findByValue">
+                <complexType>
+                    <attribute name="isTemplate" type="iis-sql:boolean" use="required"/>
+                    <attribute name="value" type="iis-sql:string_255" use="required"/>
+                    <attribute name="findAfter" type="iis-sql:int_11"/>
+                    <attribute name="direction" type="iis-sql:boolean"/>
+                    <attributeGroup ref="cd-cdplList:functionGetValueShift"/>
+                </complexType>
+            </element>
+            <element name="setValue">
+                <complexType>
+                    <attribute name="setType" use="required">
+                        <simpleType>
+                            <restriction base="iis-sql:string_25">
+                                <enumeration value="setByField"/>
+                                <enumeration value="setByValue"/>
+                            </restriction>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="setValue" type="iis-sql:string_255" use="required"/>
+                    <attribute name="delimiter" type="iis-sql:string_255" use="required"/>
+                </complexType>
+            </element>
+        </choice>
+    </complexType>
+    <complexType name="range">
+        <sequence>
+            <element name="rangeOf">
+                <complexType>
+                    <sequence>
+                        <element name="findOptions" type="cd-cdplList:findOptions"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="rangeTo">
+                <complexType>
+                    <sequence>
+                        <element name="findOptions" type="cd-cdplList:findOptions"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+        <attribute name="rangeType" use="required">
+            <simpleType>
+                <restriction base="iis-sql:string_25">
+                    <enumeration value="horizontal"/>
+                    <enumeration value="vertical"/>
+                    <enumeration value="foundInСells"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+    </complexType>
+    <complexType name="findOptions">
+        <sequence>
+            <element name="functionGetValue" type="cd-cdplList:functionGetValue" minOccurs="0" maxOccurs="1"/>
+            <element name="range" type="cd-cdplList:range" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+    <complexType name="function">
+        <choice>
+            <element name="fieldLeft">
+                <complexType>
+                    <attribute name="string" type="iis-sql:string_25" use="required"/>
+                    <attribute name="removeFound" type="iis-sql:boolean" use="required"/>
+                </complexType>
+            </element>
+            <element name="fieldRight">
+                <complexType>
+                    <attribute name="string" type="iis-sql:string_25" use="required"/>
+                    <attribute name="removeFound" type="iis-sql:boolean" use="required"/>
+                </complexType>
+            </element>
+            <element name="fieldStrReplace">
+                <complexType>
+                    <attribute name="search" type="iis-sql:string_255" use="required"/>
+                    <attribute name="replace" type="iis-sql:string_255" use="required"/>
+                </complexType>
+            </element>
+            <element name="fieldArray">
+                <complexType>
+                    <sequence>
+                        <element name="numbers" minOccurs="1">
+                            <simpleType>
+                                <list itemType="iis-sql:int_11"/>
+                            </simpleType>
+                        </element>
+                    </sequence>
+                    <attribute name="delimiter" type="iis-sql:string_25" use="required"/>
+                    <attribute name="removeFound" type="iis-sql:boolean" use="required"/>
+                </complexType>
+            </element>
+            <element name="fieldFormatToDate">
+                <complexType>
+                    <attribute name="template" type="iis-sql:string_255" use="required"/>
+                </complexType>
+            </element>
+            <element name="fieldFormatToNumeric">
+                <complexType>
+                    <attribute name="delimiter" type="iis-sql:string_25" use="required"/>
+                </complexType>
+            </element>
+            <element name="fieldMath">
+                <complexType>
+                    <attribute name="expression" type="iis-sql:string_25" use="required"/>
+                </complexType>
+            </element>
+            <element name="fieldTableDeleteEmptyFields">
+                <complexType>
+                    <attribute name="emptyFields" use="required">
+                        <simpleType>
+                            <list itemType="iis-sql:int_11"/>
+                        </simpleType>
+                    </attribute>
+                    <attribute name="allSelectedEmpty" type="iis-sql:boolean" use="required"/>
+                </complexType>
+            </element>
+        </choice>
+        <attribute name="id" type="iis-sql:int_11" use="required"/>
+    </complexType>
+    <complexType name="functions">
+        <sequence>
+            <element name="function" type="cd-cdplList:function" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="field">
+        <sequence>
+            <element name="findOptions" type="cd-cdplList:findOptions" minOccurs="0" maxOccurs="1"/>
+            <element name="functions" type="cd-cdplList:functions" minOccurs="0" maxOccurs="1"/>
+            <element name="field" type="cd-cdplList:field" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="description" type="iis-sql:string_255" use="required"/>
+        <attribute name="type" use="required">
+            <simpleType>
+                <restriction base="iis-sql:string_25">
+                    <enumeration value="field"/>
+                    <enumeration value="fieldTable"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="id" type="iis-sql:int_11" use="required"/>
+    </complexType>
+
+    <complexType name="program">
+        <choice>
+            <element name="excel">
+                <complexType>
+                    <attribute name="sheet" type="iis-sql:int_11" use="required"/>
+                </complexType>
+            </element>
+            <element name="textDocument">
+                <complexType>
+                    <attribute name="delimiter" type="iis-sql:string_25" use="required"/>
+                </complexType>
+            </element>
+        </choice>
+    </complexType>
+    <complexType name="identification">
+        <sequence>
+            <element name="fileName" type="iis-sql:string_255" minOccurs="0" maxOccurs="1"/>
+            <element name="program" type="cd-cdplList:program" minOccurs="0" maxOccurs="1"/>
+            <element name="searchKeys" minOccurs="0" maxOccurs="1">
+                <complexType>
+                    <sequence>
+                        <element name="key" minOccurs="1" maxOccurs="unbounded">
+                            <complexType>
+                                <attribute name="value" type="iis-sql:string_255" use="required"/>
+                                <attribute name="isTemplate" type="iis-sql:boolean" use="required"/>
+                            </complexType>
+                        </element>
+                    </sequence>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="cdpl">
+        <sequence>
+            <element name="identification" type="cd-cdplList:identification"/>
+            <element name="field" type="cd-cdplList:field" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+        <attributeGroup ref="cd-cdplList:cdplBasicFields"/>
+    </complexType>
+    <complexType name="cdplList">
+        <sequence>
+            <element name="cdpl" maxOccurs="unbounded">
+                <complexType>
+                    <attributeGroup ref="cd-cdplList:cdplBasicFields"/>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="cdplValueListField">
+        <sequence>
+            <element name="field" type="cd-cdplList:cdplValueListField" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="v" minOccurs="0" maxOccurs="unbounded">
+                <simpleType>
+                    <union memberTypes="string integer iis-sql:dateTime"/>
+                </simpleType>
+            </element>
+        </sequence>
+        <attribute name="value">
+            <simpleType>
+                <list itemType="string"/>
+            </simpleType>
+        </attribute>
+        <attribute name="id" type="iis-sql:int_11" use="required"/>
+    </complexType>
+
+    <complexType name="cdplValueList">
+        <sequence>
+            <element name="field" type="cd-cdplList:cdplValueListField" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="cdplValueList" type="cd-cdplList:cdplValueList"/>
+    <element name="cdpl" type="cd-cdplList:cdpl"/>
+    <element name="cdplList" type="cd-cdplList:cdplList"/>
+</schema>

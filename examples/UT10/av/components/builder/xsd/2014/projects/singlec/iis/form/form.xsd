@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:singlec-form="iisis/schemas/2014/projects/singlec/iis/form"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        xmlns:iis-objectListOptions="iisis/schemas/2014/iis/objectListOptions"
+        targetNamespace="iisis/schemas/2014/projects/singlec/iis/form" elementFormDefault="qualified">
+
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../../../../iis/sql.xsd"/>
+    <import namespace="iisis/schemas/2014/iis/objectListOptions" schemaLocation="../../../../iis/objectListOptions.xsd"/>
+
+    <!--CONTROL-->
+    <simpleType name="class">
+        <restriction base="iis-sql:string_255">
+            <pattern value="[\w.]*"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="description">
+        <restriction base="iis-sql:string_255">
+        </restriction>
+    </simpleType>
+
+    <!--template - определяет шаблон(имя класса), который нужно подключить для данного компонента-->
+    <simpleType name="template">
+        <restriction base="iis-sql:string_255">
+        </restriction>
+    </simpleType>
+
+    <attributeGroup name="position">
+        <annotation>
+            <documentation>linkR,linkL,linkT,linkB - содержит шаблон [class|template|ID] после чего может следовать
+                шаблон: .link[R|L|T|B].
+            </documentation>
+        </annotation>
+        <attribute name="left" type="iis-sql:string_25" default="0"/>
+        <attribute name="top" type="iis-sql:string_25" default="0"/>
+        <attribute name="width" type="iis-sql:string_25" default="0"/>
+        <attribute name="height" type="iis-sql:string_25" default="0"/>
+        <attribute name="linkR" type="iis-sql:string_255" default=""/>
+        <attribute name="linkL" type="iis-sql:string_255" default=""/>
+        <attribute name="linkT" type="iis-sql:string_255" default=""/>
+        <attribute name="linkB" type="iis-sql:string_255" default=""/>
+    </attributeGroup>
+
+    <simpleType name="eventParameterName">
+        <union>
+            <simpleType>
+                <restriction base="singlec-form:description"/>
+            </simpleType>
+            <simpleType>
+                <restriction base="singlec-form:description">
+                    <enumeration value="$form"/>
+                    <enumeration value="$FS"/>
+                    <enumeration value="$CS"/>
+                    <enumeration value="$CSParent"/>
+                    <enumeration value="$control"/>
+                    <enumeration value="$controlValue"/>
+                    <enumeration value="$controlValue:ID:"/>
+                    <enumeration value="$CS:ID:"/>
+                    <enumeration value="$control:ID:"/>
+                    <enumeration value="$controlOptions"/>
+
+                </restriction>
+            </simpleType>
+        </union>
+    </simpleType>
+
+    <complexType name="eventParameter">
+        <attribute name="name" type="singlec-form:eventParameterName"/>
+        <attribute name="value" type="singlec-form:eventParameterName"/>
+    </complexType>
+    <complexType name="eventParameterList">
+        <sequence>
+            <element name="parameter" type="singlec-form:eventParameter" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="eventName">
+        <union>
+            <simpleType>
+                <restriction base="singlec-form:description">
+                    <!--TextBox-->
+                    <enumeration value="$TextBoxOnChange"/>
+                    <enumeration value="$TextBoxStartChoice"/>
+                    <enumeration value="$TextBoxStartListChoice"/>
+                    <enumeration value="$TextBoxClearing"/>
+                    <enumeration value="$TextBoxTuning"/>
+                    <enumeration value="$TextBoxOpening"/>
+                    <enumeration value="$TextBoxChoiceProcessing"/>
+                    <enumeration value="$TextBoxAutoCompleteText"/>
+                    <enumeration value="$TextBoxTextEditEnd"/>
+                    <enumeration value="@UpdateChoiceListHistory"/>
+                    <enumeration value="@TextBoxGetObject"/>
+                    <!--Button-->
+                    <enumeration value="$ButtonClick"/>
+                    <!--CommandBarButton-->
+                    <enumeration value="$CommandBarButtonClick"/>
+                    <!--CheckBox-->
+                    <enumeration value="$CheckBoxOnChange"/>
+                    <!--TableBox-->
+
+                    <enumeration value="$TableBoxSelection"/>
+                    <enumeration value="$TableBoxOnActivateRow"/>
+                    <enumeration value="$TableBoxOnActivateColumn"/>
+                    <enumeration value="$TableBoxOnActivateCell"/>
+                    <enumeration value="$TableBoxBeforeAddRow"/>
+                    <enumeration value="$TableBoxBeforeRowChange"/>
+                    <enumeration value="$TableBoxBeforeDeleteRow"/>
+                    <enumeration value="$TableBoxAfterDeleteRow"/>
+                    <enumeration value="$TableBoxOnStartEdit"/>
+                    <enumeration value="$TableBoxBeforeEditEnd"/>
+                    <enumeration value="$TableBoxOnRowOutput"/>
+                    <enumeration value="$TableBoxOnDataGet"/>
+                    <enumeration value="$TableBoxValueChoice"/>
+                    <enumeration value="$TableBoxOnCheckChange"/>
+                    <enumeration value="$TableBoxOnEditEnd"/>
+                    <enumeration value="$TableBoxNewObjectWriteProcessing"/>
+                    <enumeration value="$TableBoxChoiceProcessing"/>
+                    <enumeration value="@TableBoxGetObjectByCurrentRow"/>
+                    <enumeration value="@TableBoxDeleteObjectByCurrentRow"/>
+                    <enumeration value="@TableBoxClearObjectList"/>
+                    <enumeration value="@TableBoxOpenObjectForm"/>
+                    <enumeration value="@TableBoxSaveObject"/>
+                    <enumeration value="@TableBoxUpdateRowByObject"/>
+                    <enumeration value="@TableBoxGetCurrentColumnName"/>
+                    <enumeration value="@TableBoxGetCurrentColumnValue"/>
+                    <enumeration value="@TableBoxGetObjectUUIDByCurrentRow"/>
+                    <enumeration value="@TableBoxCurrentRowGetColumnValue"/>
+                    <enumeration value="@TableBoxGetCurrentRow"/>
+
+                    <!--Panel-->
+                    <enumeration value="$PanelOnCurrentPageChange"/>
+                    <enumeration value="@PanelGetCurrentPage"/>
+                    <enumeration value="@PanelSetCurrentPage"/>
+
+                    <!--SpreadsheetDocumentField-->
+                    <enumeration value="$SpreadsheetDocumentFieldSelection"/>
+                    <enumeration value="$SpreadsheetDocumentFieldDetailProcessing"/>
+                    <enumeration value="$SpreadsheetDocumentFieldOnActivateArea"/>
+                    <enumeration value="$SpreadsheetDocumentFieldOnChangeAreaContent"/>
+
+                    <!--objectListOptions-->
+                    <enumeration value="@ObjectListOptionsGetFilterListMap"/>
+                    <!--form-->
+                    <enumeration value="$FormBeforeOpen"/>
+                    <enumeration value="$FormOnOpen"/>
+                    <enumeration value="$FormOnReopen"/>
+                    <enumeration value="$FormRefreshDisplay"/>
+                    <enumeration value="$FormBeforeClose"/>
+                    <enumeration value="$FormOnClose"/>
+                    <enumeration value="$FormChoiceProcessing"/>
+                    <enumeration value="$FormObjectActivationProcessing"/>
+                    <enumeration value="$FormNewObjectWriteProcessing"/>
+                    <enumeration value="$FormNotificationProcessing"/>
+                    <enumeration value="$FormExternalEvent"/>
+                    <enumeration value="$FormFillCheckProcessing"/>
+
+                    <!--all-->
+                    <enumeration value="ExternalEvent"/>
+
+                </restriction>
+            </simpleType>
+            <simpleType>
+                <restriction base="singlec-form:description"/>
+            </simpleType>
+        </union>
+    </simpleType>
+
+    <simpleType name="eventClass">
+        <union>
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="notUsed"/>
+                    <enumeration value="$control:ID:"/>
+                </restriction>
+            </simpleType>
+            <simpleType>
+                <restriction base="iis-sql:string_255"/>
+            </simpleType>
+        </union>
+    </simpleType>
+
+    <complexType name="event">
+        <annotation>
+            <documentation>
+                -Поле class - обработчик события,
+                -если не заполнен, то класс берется из контрола,
+                -если установлено "notUsed" - событие регистрируется, но не обрабатывается,
+                но обрабатываются вложенные события до и после
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="parameterList" type="singlec-form:eventParameterList" minOccurs="0"/>
+            <element name="before" type="singlec-form:eventList" minOccurs="0"/>
+            <element name="after" type="singlec-form:eventList" minOccurs="0"/>
+        </sequence>
+
+        <attribute name="name" type="singlec-form:eventName"/>
+        <attribute name="class" type="singlec-form:eventClass"/>
+        <attribute name="if" type="iis-sql:string_255"/>
+    </complexType>
+
+    <complexType name="eventList">
+        <sequence>
+            <element name="event" type="singlec-form:event" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="eventGroup">
+        <sequence>
+            <element name="event" maxOccurs="unbounded">
+                <complexType>
+                    <sequence>
+                        <element name="event" type="singlec-form:event" minOccurs="0" maxOccurs="unbounded"/>
+                    </sequence>
+                    <attribute name="name" type="singlec-form:eventName"/>
+                </complexType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="controlValueType">
+        <union>
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="iis-sql:boolean"/>
+                    <enumeration value="iis-sql:int_11"/>
+                    <enumeration value="iis-sql:decimal_11_2"/>
+                    <enumeration value="iis-sql:decimal_11_3"/>
+                    <enumeration value="iis-sql:ID"/>
+                    <enumeration value="iis-sql:UUID"/>
+                    <enumeration value="iis-sql:string_25"/>
+                    <enumeration value="iis-sql:string_50"/>
+                    <enumeration value="iis-sql:string_255"/>
+                    <enumeration value="iis-sql:dateTime"/>
+                </restriction>
+            </simpleType>
+            <!--textBox-->
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="@Directory"/>
+                </restriction>
+            </simpleType>
+            <!--tableBox-->
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="$ValueTable"/>
+                    <!--@DB: - определяет источник данных и загружает их-->
+                    <enumeration value="@DB:"/>
+                    <!--@XSD: - определяет структуру данных, но без загрузки этих данных-->
+                    <enumeration value="@XSD:"/>
+                    <enumeration value="@function:"/>
+                </restriction>
+            </simpleType>
+
+            <simpleType>
+                <restriction base="iis-sql:string_255"/>
+            </simpleType>
+        </union>
+    </simpleType>
+
+    <simpleType name="picture">
+        <union>
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="$AddListItem"/>
+                    <enumeration value="$Attribute"/>
+                    <enumeration value="$Back"/>
+                    <enumeration value="$CancelSearch"/>
+                    <enumeration value="$Catalog"/>
+                    <enumeration value="$Change"/>
+                    <enumeration value="$CheckAll"/>
+                    <enumeration value="$Clear"/>
+                    <enumeration value="$Close"/>
+                    <enumeration value="$CreateListItem"/>
+                    <enumeration value="$DeleteListItem"/>
+                    <enumeration value="$CloneListItem"/>
+                    <enumeration value="$ChangeListItem"/>
+                </restriction>
+            </simpleType>
+            <simpleType>
+                <restriction base="iis-sql:string_255"/>
+            </simpleType>
+        </union>
+    </simpleType>
+
+    <complexType name="control">
+        <attribute name="class" type="singlec-form:class" default=""/>
+        <attribute name="description" type="singlec-form:description"/>
+        <!--ID используется в привязках к элементам-->
+        <attribute name="ID" type="ID"/>
+        <attribute name="init" type="iis-sql:boolean" default="0"/>
+        <attribute name="template" type="singlec-form:template"/>
+        <attribute name="visible" type="iis-sql:boolean" default="1"/>
+    </complexType>
+
+    <!--FORM-->
+    <complexType name="form">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element ref="singlec-form:panel" minOccurs="0"/>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attributeGroup ref="singlec-form:position"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+
+    <!--BUTTON-->
+    <complexType name="button">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attributeGroup ref="singlec-form:position"/>
+                <attribute name="picture" type="singlec-form:picture"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!--CHECKBOX-->
+    <simpleType name="checkBoxDescriptionLocation">
+        <restriction base="string">
+            <enumeration value="Left"/>
+            <enumeration value="Right"/>
+        </restriction>
+    </simpleType>
+    <complexType name="checkBox">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attribute name="value" type="iis-sql:boolean" default="0"/>
+                <attribute name="descriptionLocation" type="singlec-form:checkBoxDescriptionLocation" default="Right"/>
+                <attributeGroup ref="singlec-form:position"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!-- COMMANDBAR-->
+    <simpleType name="commandBarButtonType">
+        <restriction base="string">
+            <enumeration value="Action"/>
+            <enumeration value="Popup"/>
+            <enumeration value="Separator"/>
+        </restriction>
+    </simpleType>
+    <complexType name="commandBarButton">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="buttonList" type="singlec-form:commandBarButtonList" minOccurs="0"/>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attribute name="type" type="singlec-form:commandBarButtonType" use="required"/>
+                <attribute name="picture" type="singlec-form:picture"/>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="commandBarButtonList">
+        <sequence>
+            <element name="button" type="singlec-form:commandBarButton" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="commandBar">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="buttonList" type="singlec-form:commandBarButtonList" minOccurs="0"/>
+                </sequence>
+                <attributeGroup ref="singlec-form:position"/>
+
+                <attribute name="autoFill" type="iis-sql:boolean" default="0"/>
+                <attribute name="actionSource" type="IDREF"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+<!--GROUP-->
+    <complexType name="controlList">
+        <choice minOccurs="0" maxOccurs="unbounded">
+            <element ref="singlec-form:button" minOccurs="0"/>
+            <element ref="singlec-form:panel" minOccurs="0"/>
+            <element ref="singlec-form:spreadsheetDocumentField" minOccurs="0"/>
+            <element ref="singlec-form:commandBar" minOccurs="0"/>
+            <element ref="singlec-form:tableBox" minOccurs="0"/>
+            <element ref="singlec-form:splitter" minOccurs="0"/>
+            <element ref="singlec-form:textBox" minOccurs="0"/>
+            <element ref="singlec-form:label" minOccurs="0"/>
+            <element ref="singlec-form:form" minOccurs="0"/>
+            <element ref="singlec-form:periodDate" minOccurs="0"/>
+            <element ref="singlec-form:objectListOptions" minOccurs="0"/>
+            <element ref="singlec-form:checkBox" minOccurs="0"/>
+        </choice>
+    </complexType>
+
+    <!-- LABEL-->
+    <complexType name="label">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <attributeGroup ref="singlec-form:position"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!-- OBJECTLISTOPTIONS-->
+    <complexType name="OLOField">
+        <annotation>
+            <documentation>
+                useValueList - 1: фильтр можно установить по списку однотипных значений
+            </documentation>
+        </annotation>
+        <attribute name="fieldName" type="iis-objectListOptions:fieldName" use="required"/>
+        <attribute name="description" type="singlec-form:description"/>
+        <attribute name="valueType" type="singlec-form:controlValueType" default="iis-sql:string_255"/>
+        <attribute name="useComparison" type="iis-sql:boolean" default="1"/>
+
+        <attribute name="useValueList" type="iis-sql:boolean" default="0"/>
+        <attribute name="comparison" type="iis-objectListOptions:comparison" default="equal"/>
+    </complexType>
+    <complexType name="OLOFieldList">
+        <sequence>
+            <element name="field" type="singlec-form:OLOField" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="objectListOptions">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="fieldList" type="singlec-form:OLOFieldList"/>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attributeGroup ref="singlec-form:position"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!-- PANEL-->
+    <complexType name="panelPage">
+        <sequence>
+            <element name="controlList" type="singlec-form:controlList"/>
+        </sequence>
+        <attribute name="description" type="singlec-form:description"/>
+        <attribute name="ID" type="ID"/>
+        <attribute name="visible" type="iis-sql:boolean" default="1"/>
+    </complexType>
+    <complexType name="panelPageList">
+        <sequence>
+            <element name="page" type="singlec-form:panelPage" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="tabListPosition">
+        <restriction base="string">
+            <enumeration value="top"/>
+            <enumeration value="bottom"/>
+            <enumeration value="left"/>
+            <enumeration value="right"/>
+        </restriction>
+    </simpleType>
+    <complexType name="panel">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="pageList" type="singlec-form:panelPageList" minOccurs="0"/>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attributeGroup ref="singlec-form:position"/>
+                <attribute name="tabListPosition" type="singlec-form:tabListPosition"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!-- PERIODDATE-->
+    <complexType name="periodDate">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="controlList" type="singlec-form:controlList" minOccurs="0"/>
+                </sequence>
+                <attributeGroup ref="singlec-form:position"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!-- SPLITTER-->
+    <complexType name="splitter">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <attributeGroup ref="singlec-form:position"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!-- SPREADSHEETDOCUMENTFIELD-->
+    <complexType name="spreadsheetDocumentField">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attributeGroup ref="singlec-form:position"/>
+                <attribute name="verticalScrollBar" type="iis-sql:boolean" default="1"/>
+                <attribute name="horizontalScrollBar" type="iis-sql:boolean" default="1"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!-- TABLEBOX-->
+    <complexType name="tableBoxField">
+        <sequence>
+            <element name="control" type="singlec-form:textBoxBase" minOccurs="0"/>
+        </sequence>
+        <attribute name="data" type="iis-sql:string_255" default=""/>
+        <attribute name="width" type="iis-sql:string_25" default="1"/>
+        <attribute name="visible" type="iis-sql:boolean" default="1"/>
+        <attribute name="description" type="singlec-form:description"/>
+        <attribute name="ID" type="singlec-form:description"/>
+        <attribute name="displayDefaultPicture" type="iis-sql:boolean" default="0"/>
+    </complexType>
+    <complexType name="tableBoxFieldList">
+        <sequence>
+            <element name="field" type="singlec-form:tableBoxField" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="tableBox">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="fieldList" type="singlec-form:tableBoxFieldList" minOccurs="0"/>
+                    <element name="objectListOptions" type="singlec-form:objectListOptions" minOccurs="0"/>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attributeGroup ref="singlec-form:position"/>
+                <attribute name="valueType" type="singlec-form:controlValueType"/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <!-- TEXTBOX-->
+    <simpleType name="textBoxValueURI">
+        <union>
+            <simpleType>
+                <restriction base="iis-sql:string_255">
+                    <enumeration value="@XSD:"/>
+                    <enumeration value="@function:"/>
+                </restriction>
+            </simpleType>
+            <simpleType>
+                <restriction base="iis-sql:string_255"/>
+            </simpleType>
+        </union>
+    </simpleType>
+
+    <complexType name="textBoxValue">
+        <attribute name="value" type="iis-sql:string_255"/>
+        <attribute name="URI" type="singlec-form:textBoxValueURI"/>
+    </complexType>
+
+    <complexType name="textBoxValueList">
+        <sequence>
+            <element name="value" type="singlec-form:textBoxValue" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+        <attribute name="URI" type="singlec-form:textBoxValueURI"/>
+    </complexType>
+    <complexType name="textBoxBase">
+        <complexContent>
+            <extension base="singlec-form:control">
+                <sequence>
+                    <element name="valueList" type="singlec-form:textBoxValueList" minOccurs="0"/>
+                    <element name="eventGroup" type="singlec-form:eventGroup" minOccurs="0"/>
+                </sequence>
+                <attribute name="choiceListButton" type="iis-sql:boolean" default="0"/>
+                <attribute name="choiceButton" type="iis-sql:boolean" default="0"/>
+                <attribute name="clearButton" type="iis-sql:boolean" default="0"/>
+                <attribute name="openButton" type="iis-sql:boolean" default="0"/>
+                <attribute name="valueType" type="singlec-form:controlValueType" default="iis-sql:string_255"/>
+                <attribute name="picture" type="singlec-form:picture"/>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="textBox">
+        <complexContent>
+            <extension base="singlec-form:textBoxBase">
+                <attributeGroup ref="singlec-form:position"/>
+                <attribute name="useChoiceListHistory" type="iis-sql:boolean" default="0"/>
+                <attribute name="restoreValue" type="iis-sql:boolean" default="0"/>
+                <attribute name="value" type="iis-sql:string_255" default=""/>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="control" type="singlec-form:control"/>
+    <element name="form" type="singlec-form:form"/>
+    <element name="checkBox" type="singlec-form:checkBox"/>
+    <element name="commandBar" type="singlec-form:commandBar"/>
+    <element name="textBox" type="singlec-form:textBox"/>
+    <element name="tableBox" type="singlec-form:tableBox"/>
+    <element name="spreadsheetDocumentField" type="singlec-form:spreadsheetDocumentField"/>
+    <element name="splitter" type="singlec-form:splitter"/>
+    <element name="periodDate" type="singlec-form:periodDate"/>
+    <element name="panel" type="singlec-form:panel"/>
+    <element name="objectListOptions" type="singlec-form:objectListOptions"/>
+    <element name="label" type="singlec-form:label"/>
+    <element name="button" type="singlec-form:button"/>
+</schema>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        xmlns:av-priceList="iisis/schemas/2014/av/priceList"
+        xmlns:av-productList="iisis/schemas/2014/av/productList"
+        targetNamespace="iisis/schemas/2014/av/priceList" elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+    <import namespace="iisis/schemas/2014/av/productList" schemaLocation="../av/productList.xsd"/>
+
+    <complexType name="priceProductListLightRow">
+        <attribute name="i" type="iis-sql:ID" use="required"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
+        <attribute name="pi" type="iis-sql:ID" use="required"/>
+        <attribute name="mfi" type="iis-sql:ID" use="required"/>
+        <attribute name="mfd" type="iis-sql:string_255" id="manufacturerDescription"/>
+        <attribute name="d" type="iis-sql:string_255" id="description"/>
+        <attribute name="n" type="av-productList:number"/>
+        <attribute name="u" type="iis-sql:string_25" id="unit"/>
+        <attribute name="c" type="iis-sql:string_255" id="comment"/>
+        <attribute name="upd" type="iis-sql:dateTime" id="DateUpdate"/>
+        <attribute name="o" type="iis-sql:boolean" id="own"/>
+        <attribute name="pr" type="iis-sql:string_255" id="partner"/>
+        <attribute name="prui" type="iis-sql:UUID" id="partnerUUID"/>
+        <attribute name="uri" type="iis-sql:string_255"/>
+        <attribute name="q" type="iis-sql:decimal_11_2" id="quantity"/>
+        <attribute name="p" type="iis-sql:decimal_11_2" id="price"/>
+        <attribute name="p1" type="iis-sql:decimal_11_2"/>
+        <attribute name="p2" type="iis-sql:decimal_11_2"/>
+        <attribute name="p3" type="iis-sql:decimal_11_2"/>
+        <attribute name="p4" type="iis-sql:decimal_11_2"/>
+        <attribute name="p5" type="iis-sql:decimal_11_2"/>
+        <attribute name="cr" type="iis-sql:string_25"/>
+        <attribute name="dp" type="iis-sql:string_25" id="deliveryPeriod"/>
+        <attribute name="mo" type="iis-sql:string_25" id="minimumOrder"/>
+    </complexType>
+
+    <complexType name="priceProductListLight">
+        <sequence>
+            <element name="p" type="av-priceList:priceProductListLightRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="priceProductListLight" type="av-priceList:priceProductListLight"/>
+</schema>

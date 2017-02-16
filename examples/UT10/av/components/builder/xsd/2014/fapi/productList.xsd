@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:fapi-productList="iisis/schemas/2014/fapi/productList"
+        xmlns:av-productList="iisis/schemas/2014/av/productList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/fapi/productList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+    <import namespace="iisis/schemas/2014/av/productList" schemaLocation="../av/productList.xsd"/>
+
+    <complexType name="productListRow">
+        <attribute name="i" type="iis-sql:ID" use="required"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
+        <attribute name="mfi" type="iis-sql:ID" use="required"/>
+        <attribute name="ns" type="av-productList:numberStandart"/>
+    </complexType>
+
+    <complexType name="productList">
+        <sequence>
+            <element name="p" type="fapi-productList:productListRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="productList" type="fapi-productList:productList"/>
+
+</schema>
