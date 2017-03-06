@@ -8,7 +8,19 @@
     <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
     <import namespace="iisis/schemas/2014/av/manufacturerList" schemaLocation="../av/manufacturerList.xsd"/>
 
+    <complexType name="manufacturerListRow">
+        <attribute name="i" type="iis-sql:ID" use="required"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
+        <attribute name="ds" type="av-manufacturerList:descriptionStandart"/>
+        <attribute name="da" type="av-manufacturerList:descriptionAdapt"/>
+    </complexType>
 
-    <element name="manufacturerList" type="av-manufacturerList:manufacturerList"/>
+    <complexType name="manufacturerList">
+        <sequence>
+            <element name="mf" type="fapi-manufacturerList:manufacturerListRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
 
+    <element name="manufacturerList" type="fapi-manufacturerList:manufacturerList"/>
+    <element name="manufacturerListRow" type="fapi-manufacturerList:manufacturerListRow"/>
 </schema>

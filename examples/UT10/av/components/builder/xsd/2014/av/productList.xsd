@@ -7,10 +7,10 @@
     <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
 
     <simpleType name="number">
-        <restriction base="iis-sql:string_25"></restriction>
+        <restriction base="iis-sql:string_105"/>
     </simpleType>
     <simpleType name="numberStandart">
-        <restriction base="iis-sql:string_25"></restriction>
+        <restriction base="iis-sql:string_105"/>
     </simpleType>
 
     <complexType name="productListLightRow">

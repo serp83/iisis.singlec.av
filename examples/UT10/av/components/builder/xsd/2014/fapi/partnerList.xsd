@@ -8,7 +8,7 @@
     <complexType name="partnerListRow">
         <attribute name="i" type="iis-sql:ID"/>
         <attribute name="ui" type="iis-sql:UUID"/>
-        <attribute name="description" type="iis-sql:string_255"/>
+        <attribute name="d" type="iis-sql:string_255"/>
         <attribute name="email" type="iis-sql:string_255"/>
         <attribute name="apiKey" type="iis-sql:UUID"/>
         <attribute name="rating" type="iis-sql:int_11"/>

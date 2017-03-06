@@ -1,39 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
         xmlns:fapi-analogList="iisis/schemas/2014/fapi/analogList"
+        xmlns:fapi-manufacturerList="iisis/schemas/2014/fapi/manufacturerList"
         xmlns:av-manufacturerList="iisis/schemas/2014/av/manufacturerList"
         xmlns:av-productList="iisis/schemas/2014/av/productList"
+        xmlns:fapi-sourceList="iisis/schemas/2014/fapi/sourceList"
         xmlns:iis-sql="iisis/schemas/2014/iis/sql"
         targetNamespace="iisis/schemas/2014/fapi/analogList"
         elementFormDefault="qualified">
     <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
     <import namespace="iisis/schemas/2014/av/productList" schemaLocation="../av/productList.xsd"/>
+    <import namespace="iisis/schemas/2014/fapi/manufacturerList" schemaLocation="../fapi/manufacturerList.xsd"/>
     <import namespace="iisis/schemas/2014/av/manufacturerList" schemaLocation="../av/manufacturerList.xsd"/>
-    <complexType name="analogListRowV1">
-        <attribute name="i" type="iis-sql:ID"/>
-        <attribute name="ui" type="iis-sql:UUID"/>
+    <import namespace="iisis/schemas/2014/fapi/sourceList" schemaLocation="sourceList.xsd"/>
 
+    <complexType name="analogListRow">
+        <attribute name="i" type="iis-sql:IDLong"/>
+        <attribute name="ui" type="iis-sql:UUID"/>
         <!-- partner ID-->
         <attribute name="pri" type="iis-sql:ID"/>
         <!-- source ID-->
         <attribute name="si" type="iis-sql:ID"/>
         <attribute name="mfi" type="iis-sql:ID"/>
+        <attribute name="mfa" type="av-manufacturerList:descriptionAdapt"/>
         <attribute name="ns" type="av-productList:numberStandart"/>
         <attribute name="mfia" type="iis-sql:ID"/>
+        <attribute name="mfaa" type="av-manufacturerList:descriptionAdapt"/>
         <attribute name="nsa" type="av-productList:numberStandart"/>
+        <attribute name="int" type="iis-sql:boolean"/>
     </complexType>
+
     <complexType name="analogListV1">
         <sequence>
-            <element name="a" type="fapi-analogList:analogListRowV1" minOccurs="0" maxOccurs="unbounded"/>
+            <element name="a" type="fapi-analogList:analogListRow" minOccurs="0" maxOccurs="unbounded"/>
         </sequence>
     </complexType>
 
     <complexType name="analogListV2">
         <sequence>
-            <element name="manufacturerList" type="av-manufacturerList:manufacturerListLight"/>
+            <element name="manufacturerList" type="fapi-manufacturerList:manufacturerList"/>
             <element name="analogList" type="fapi-analogList:analogListV1"/>
+            <element name="sourceList" type="fapi-sourceList:sourceList"/>
         </sequence>
     </complexType>
 
-    <element name="analogList" type="fapi-analogList:analogListV2"/>
+    <element name="analogListRow" type="fapi-analogList:analogListRow"/>
+    <element name="analogListV1" type="fapi-analogList:analogListV1"/>
+    <element name="analogListV2" type="fapi-analogList:analogListV2"/>
 </schema>

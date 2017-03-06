@@ -16,9 +16,20 @@
         </annotation>
         <restriction base="int"/>
     </simpleType>
+
+    <!-- index by PostgreSQL type = integer, MySQL type = int-->
     <simpleType name="ID">
-        <restriction base="iis-sql:int_11"/>
+        <restriction base="int">
+            <minInclusive value="0"/>
+            <maxInclusive value="2147483647"/>
+        </restriction>
     </simpleType>
+
+    <!-- index by PostgreSQL type = bigint	8 bytes-->
+    <simpleType name="IDLong">
+        <restriction base="long"/>
+    </simpleType>
+
 
     <simpleType name="UUID">
         <restriction base="string">
@@ -30,6 +41,12 @@
     <simpleType name="string_255">
         <restriction base="string">
             <maxLength value="255"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="string_105">
+        <restriction base="string">
+            <maxLength value="105"/>
         </restriction>
     </simpleType>
 
