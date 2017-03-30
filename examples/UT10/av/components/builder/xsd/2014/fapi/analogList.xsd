@@ -21,6 +21,8 @@
         <attribute name="pri" type="iis-sql:ID"/>
         <!-- source ID-->
         <attribute name="si" type="iis-sql:ID"/>
+        <!-- document ID-->
+        <attribute name="di" type="iis-sql:ID"/>
         <attribute name="mfi" type="iis-sql:ID"/>
         <attribute name="mfa" type="av-manufacturerList:descriptionAdapt"/>
         <attribute name="ns" type="av-productList:numberStandart"/>

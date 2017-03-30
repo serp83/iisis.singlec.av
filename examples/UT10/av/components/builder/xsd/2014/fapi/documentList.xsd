@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:fapi-documentList="iisis/schemas/2014/fapi/documentList"
+        xmlns:iis-sql="iisis/schemas/2014/iis/sql"
+        targetNamespace="iisis/schemas/2014/fapi/documentList"
+        elementFormDefault="qualified">
+    <import namespace="iisis/schemas/2014/iis/sql" schemaLocation="../iis/sql.xsd"/>
+    <complexType name="documentListRow">
+        <attribute name="i" type="iis-sql:ID"/>
+        <attribute name="si" type="iis-sql:ID"/>
+        <attribute name="pri" type="iis-sql:ID"/>
+        <attribute name="d" type="iis-sql:string_255"/>
+        <attribute name="date" type="iis-sql:dateTime"/>
+    </complexType>
+    <complexType name="documentList">
+        <sequence>
+            <element name="d" type="fapi-documentList:documentListRow" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="sourceList" type="fapi-documentList:documentList"/>
+    <element name="sourceListRow" type="fapi-documentList:documentListRow"/>
+</schema>

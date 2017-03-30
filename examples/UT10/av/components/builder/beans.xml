@@ -9,10 +9,15 @@
                     <property key="driver" value="av.apg.fapi"/>
                     <property key="FindByNumber" value="1"/>
                 </map>
+				
+				<map id="mikado">
+                    <property key="driver" value="av.apg.mikado.priceListLight"/>
+                    <property key="FindByNumber" value="2"/>
+                </map>
                 <map id="singlec">
                     <property key="driver" value="av.apg.singlec.priceListLight"/>
-                    <property key="FindByNumber" value="1"/>
-                    <property key="FindByDescription" value="2"/>
+                    <property key="FindByNumber" value="3"/>
+                    <property key="FindByDescription" value="1"/>
                 </map>
             </bean>
         </bean>
@@ -20,6 +25,15 @@
             <bean id="fapi">
                 <property key="URL" value="http://fapi.iisis.ru"/>
                 <property key="UUID" value="00000000-0000-0000-0000-000000000000"/>
+            </bean>
+			<bean id="mikado">
+                <property key="INN" value="0000000000"/>
+                <bean id="db">
+                    <bean id="http">
+                        <property key="login" value="00000"/>
+                        <property key="password" value="00000"/>
+                    </bean>
+                </bean>
             </bean>
         </bean>
     </bean>
